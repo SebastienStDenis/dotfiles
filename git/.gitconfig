@@ -1,0 +1,49 @@
+[init]
+    defaultBranch = main
+
+[user]
+    name = Sébastien St-Denis
+    email = sebastien.stdenis@proton.me
+
+[core]
+    editor = nvim
+    autocrlf = input
+    pager = delta
+
+[pull]
+    ff = only
+
+[fetch]
+    prune = true
+
+[rebase]
+    autostash = true
+
+[merge]
+    conflictstyle = zdiff3
+
+[rerere]
+    enabled = true
+
+[push]
+    default = upstream
+    autoSetupRemote = true
+
+[delta]
+    navigate = true
+    line-numbers = true
+    side-by-side = true
+
+[alias]
+    ad = add
+    br = branch
+    sw = switch
+    ch = cherry-pick
+    cm = commit
+    rs = reset
+    df = diff
+    lg = log
+    st = status
+    rb = rebase
+    pl = pull
+    ps = push

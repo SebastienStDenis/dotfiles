@@ -1,0 +1,14 @@
+^\.stow-local-ignore$
+
+^\.git$
+^\.gitignore$
+
+^\.DS_Store$
+^\.AppleDouble$
+^\.Trashes$
+^Icon\r$
+
+.*\.swp$
+.*\.swo$
+.*~$
+.*\.bak$
