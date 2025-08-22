@@ -8,7 +8,6 @@
 [core]
     editor = nvim
     autocrlf = input
-    pager = delta
 
 [pull]
     ff = only
@@ -28,11 +27,6 @@
 [push]
     default = upstream
     autoSetupRemote = true
-
-[delta]
-    navigate = true
-    line-numbers = true
-    side-by-side = true
 
 [alias]
     ad = add
