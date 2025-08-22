@@ -1,0 +1,7 @@
+{
+    "window.commandCenter": true,
+    "editor.fontFamily": "UbuntuSansMono Nerd Font, monospace", // https://www.nerdfonts.com/font-downloads
+    "window.autoDetectColorScheme": true,
+    "workbench.preferredDarkColorTheme": "Nord Wave", // https://marketplace.visualstudio.com/items?itemName=dnlytras.nord-wave
+    "workbench.preferredLightColorTheme": "Polar" // https://marketplace.visualstudio.com/items?itemName=merithayan.polar
+}
