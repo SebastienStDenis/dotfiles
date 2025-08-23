@@ -1,12 +1,14 @@
 .PHONY: help stow stow-adopt stow-override brew-install brew-prune brew-apply brew-dump
 
-BREWFLAGS := --global
-BUNDLE    := brew bundle $(BREWFLAGS)
+BREWFLAGS 	:= --global
+BUNDLE    	:= brew bundle $(BREWFLAGS)
+STOWFLAGS  	:= -d . -t $(HOME) -v
+STOW	  	:= stow $(STOWFLAGS)
+PACKAGES 	:= brew git zsh
 
 # Default target
 help:
-	@echo "Available commands:"
-	@echo "  stow           - Symlink brew, git, and zsh"
+	@echo "  stow           - Symlink $(PACKAGES)"
 	@echo "  stow-adopt     - Symlink and adopt existing home dotfiles"
 	@echo "  stow-override  - Symlink and override existing home dotfiles with repo content"
 	@echo "  brew-install   - Install packages from Brewfile"
@@ -15,24 +17,21 @@ help:
 	@echo "  brew-dump      - Overwrite Brewfile from current environment"
 
 stow:
-	@echo "Applying symlinks for brew, git, and zsh..."
-	stow -d . -t $(HOME) -v brew git zsh
+	@$(STOW) $(PACKAGES)
 
 stow-adopt:
-	@echo "Force applying symlinks (stow will adopt existing files)..."
-	stow -d . -t $(HOME) -v --adopt brew git zsh
+	@$(STOW) --adopt $(PACKAGES)
 
 stow-override:
-	@echo "Overriding existing home dotfiles with repo content..."
-	stow -d . -t $(HOME) -v --override brew git zsh
+	@$(STOW) --override $(PACKAGES)
 
 brew-install:
-	$(BUNDLE)
+	@$(BUNDLE)
 
 brew-prune:
-	$(BUNDLE) cleanup --force
+	@$(BUNDLE) cleanup --force
 
 brew-apply: brew-install brew-prune
 
 brew-dump:
-	$(BUNDLE) dump --force
+	@$(BUNDLE) dump --force
