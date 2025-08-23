@@ -21,11 +21,4 @@ plugins=(
 
 source "$ZSH/oh-my-zsh.sh"
 
-# Source key bindings + completion from Homebrew prefix
-if command -v brew >/dev/null; then
-  FZF_BASE="$(brew --prefix)/opt/fzf"
-  [ -f "$FZF_BASE/shell/key-bindings.zsh" ] && source "$FZF_BASE/shell/key-bindings.zsh"
-  [ -f "$FZF_BASE/shell/completion.zsh" ]    && source "$FZF_BASE/shell/completion.zsh"
-fi
-
 export FZF_DEFAULT_OPTS="--height=40%"
