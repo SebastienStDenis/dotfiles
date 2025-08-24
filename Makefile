@@ -12,7 +12,7 @@ BUNDLE       := $(BREW) bundle $(BUNDLEFLAGS)
 
 help:
 	@echo "  init           - Install Homebrew and other dependencies"
-	@echo "  bootstrap	    - Bootstrap the development environment (removes existing dotfiles)"
+	@echo "  bootstrap      - Bootstrap the development environment (removes existing dotfiles)"
 	@echo "  stow           - Symlink $(PACKAGES)"
 	@echo "  stow-adopt     - Symlink and override repo content with existing home dotfiles"
 	@echo "  brew-install   - Install packages from Brewfile"
