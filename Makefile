@@ -38,15 +38,15 @@ omz-setup:
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting $$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting || true
 
 iterm2-setup:
-	@/usr/bin/defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$(CURDIR)/iterm2"
-	@/usr/bin/defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
-	@osascript -e 'tell application "iTerm2" to quit'
-	@killall cfprefsd
+	/usr/bin/defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$(CURDIR)/iterm2"
+	/usr/bin/defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+	osascript -e 'tell application "iTerm2" to quit'
+	killall cfprefsd
 
 link:
-	@$(call backup_and_link,"$(CURDIR)/brew/.Brewfile","$$HOME/.Brewfile")
-	@$(call backup_and_link,"$(CURDIR)/git/.gitconfig","$$HOME/.gitconfig")
-	@$(call backup_and_link,"$(CURDIR)/zsh/.zshrc","$$HOME/.zshrc")
+	$(call backup_and_link,"$(CURDIR)/brew/.Brewfile","$$HOME/.Brewfile")
+	$(call backup_and_link,"$(CURDIR)/git/.gitconfig","$$HOME/.gitconfig")
+	$(call backup_and_link,"$(CURDIR)/zsh/.zshrc","$$HOME/.zshrc")
 
 brew-dump:
 	$(BUNDLE) dump --force
