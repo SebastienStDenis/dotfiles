@@ -1,41 +1,40 @@
-.PHONY: help init bootstrap stow stow-adopt brew-install brew-dump brew-prune
-
-HOMEBREW_BIN = $(shell test -x /opt/homebrew/bin/brew && echo /opt/homebrew/bin || echo /usr/local/bin)
+.PHONY: brew-setup omz-setup link brew-install brew-dump brew-prune bootstrap
 
 BUNDLEFLAGS  := --global
-STOWFLAGS    := -d . -t $(HOME) -v
-PACKAGES     := brew git zsh
-
-BREW         := $(HOMEBREW_BIN)/brew
-STOW         := $(HOMEBREW_BIN)/stow $(STOWFLAGS) $(PACKAGES)
+BIN          := /opt/homebrew/bin
+BREW         := $(BIN)/brew
 BUNDLE       := $(BREW) bundle $(BUNDLEFLAGS)
 
 help:
-	@echo "  init           - Install Homebrew and other dependencies"
-	@echo "  bootstrap      - Bootstrap the development environment (removes existing dotfiles)"
-	@echo "  stow           - Symlink $(PACKAGES)"
-	@echo "  stow-adopt     - Symlink and override repo content with existing home dotfiles"
+	@echo "  bootstrap      - Bootstrap the development environment"
+	@echo "  brew-setup     - Install Homebrew"
+	@echo "  omz-setup      - Install Oh My Zsh and plugins"
+	@echo "  link           - Symlink dotfiles (backs up existing dotfiles)"
 	@echo "  brew-install   - Install packages from Brewfile"
-	@echo "  brew-prune     - Remove packages not in Brewfile"
 	@echo "  brew-dump      - Overwrite Brewfile from current environment"
+	@echo "  brew-prune     - Remove packages not in Brewfile"
 
-init:
+define backup_and_link
+	src="$(1)"; dest="$(2)"; \
+	[ -e "$$dest" ] && [ ! -L "$$dest" ] && mv "$$dest" "$$dest.backup" && echo "Backed up existing $$dest to $$dest.backup"; \
+	{ [ -e "$$dest" ] || [ -L "$$dest" ]; } && rm -rf "$$dest"; \
+	mkdir -p "$$(dirname "$$dest")" && ln -s "$$src" "$$dest" && echo "Linked $$dest to $$src"
+endef
+
+brew-setup:
 	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-	echo 'eval "$$($(BREW) shellenv)"' >> ~/.zprofile
-	sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-	git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-	$(BREW) bundle --file=./brew/.Brewfile
+	grep -q 'brew shellenv' $$HOME/.zprofile || echo 'eval "$$($(BREW) shellenv)"' >> $$HOME/.zprofile
 
-bootstrap: init
-	rm -f $(HOME)/.zshrc
-	$(STOW)
+omz-setup:
+	RUNZSH=no \
+	sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	git clone https://github.com/zsh-users/zsh-autosuggestions $$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions || true
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting $$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting || true
 
-stow:
-	$(STOW)
-
-stow-adopt:
-	$(STOW) --adopt
+link:
+	@$(call backup_and_link,"$(CURDIR)/brew/.Brewfile","$$HOME/.Brewfile")
+	@$(call backup_and_link,"$(CURDIR)/git/.gitconfig","$$HOME/.gitconfig")
+	@$(call backup_and_link,"$(CURDIR)/zsh/.zshrc","$$HOME/.zshrc")
 
 brew-install:
 	$(BUNDLE)
@@ -45,3 +44,5 @@ brew-dump:
 
 brew-prune:
 	$(BUNDLE) cleanup --force
+
+bootstrap: brew-setup omz-setup link brew-install brew-dump
