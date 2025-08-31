@@ -21,4 +21,5 @@ plugins=(
 
 source "$ZSH/oh-my-zsh.sh"
 
+unsetopt SHARE_HISTORY
 export FZF_DEFAULT_OPTS="--height=40%"
