@@ -1,4 +1,5 @@
 alias g='git'
+alias dc='docker'
 export DISABLE_UNTRACKED_FILES_DIRTY=true
 export EDITOR='nvim'
 
