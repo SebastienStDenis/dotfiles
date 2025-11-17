@@ -24,6 +24,12 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   docker
+  kubectl
+  kube-ps1
+  helm
+  kind
+  gcloud
+  aws
 )
 
 source "$ZSH/oh-my-zsh.sh"
