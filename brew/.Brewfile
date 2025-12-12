@@ -1,3 +1,4 @@
+brew "docker"
 brew "fzf"
 brew "git"
 brew "helm"
