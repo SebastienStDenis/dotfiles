@@ -3,7 +3,7 @@
 
 [user]
     name = Sébastien St-Denis
-    email = sebastien.stdenis@proton.me
+    email = sebastien.stdenis@icloud.com
 
 [core]
     editor = nvim
@@ -27,6 +27,9 @@
 [push]
     default = upstream
     autoSetupRemote = true
+
+[pager]
+    branch = false
 
 [alias]
     ad = add
