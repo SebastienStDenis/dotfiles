@@ -44,3 +44,4 @@
     rb = rebase
     pl = pull
     ps = push
+    wt = worktree

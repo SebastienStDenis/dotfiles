@@ -6,7 +6,7 @@ BREW         := $(BIN)/brew
 BUNDLE       := $(BREW) bundle $(BUNDLEFLAGS)
 
 help:
-	@echo "  bootstrap      - Bootstrap the development environment (backs up existing dotfiles)"
+	@echo "  bootstrap-mac  - Bootstrap the development environmenton mac (backs up existing dotfiles)"
 	@echo "  brew-setup     - Install Homebrew"
 	@echo "  brew-install   - Install packages from Brewfile"
 	@echo "  brew-dump      - Overwrite Brewfile from current environment"
@@ -25,7 +25,7 @@ define backup_and_link
 	mkdir -p "$$(dirname "$$dest")" && ln -s "$$src" "$$dest" && echo "Linked $$dest to $$src"
 endef
 
-bootstrap: brew-setup brew-install git-setup omz-setup iterm2-setup brew-dump
+bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup brew-dump
 
 brew-setup: link-brew
 	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
