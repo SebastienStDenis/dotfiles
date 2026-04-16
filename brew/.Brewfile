@@ -1,4 +1,5 @@
 brew "fzf"
+brew "gh"
 brew "git"
 brew "helm"
 brew "k9s"
