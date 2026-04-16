@@ -17,7 +17,7 @@ help:
 	@echo "  link-git       - Link git dotfile"
 	@echo "  link-zsh       - Link zsh dotfile"
 	@echo "  link-brew      - Link Brewfile"
-	@echo "  link-claude    - Link Claude CLAUDE.md, agents, and commands"
+	@echo "  link-claude    - Link Claude CLAUDE.md, agents, commands, and skills"
 
 define backup_and_link
 	set -e; \
@@ -76,3 +76,4 @@ link-claude:
 	@$(call backup_and_link,"$(CURDIR)/claude/CLAUDE.md","$$HOME/.claude/CLAUDE.md")
 	@$(call backup_and_link,"$(CURDIR)/claude/agents","$$HOME/.claude/agents")
 	@$(call backup_and_link,"$(CURDIR)/claude/commands","$$HOME/.claude/commands")
+	@$(call backup_and_link,"$(CURDIR)/claude/skills","$$HOME/.claude/skills")
