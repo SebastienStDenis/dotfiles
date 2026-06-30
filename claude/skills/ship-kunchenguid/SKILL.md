@@ -72,7 +72,7 @@ Run in order. Cheap judgment first; nothing pushes until everything is green.
 ### 6. Push and PR (inline)
 
 - Make sure all fixes are committed. Push with `git push --force-with-lease`. If the push is rejected because the remote moved out from under you, STOP and ask the user - never a bare `--force`, never retry harder. (A brand-new branch with no remote is a plain push.)
-- Open or update the PR with `gh pr create` / `gh pr edit`, using the prompt in `steps/pr.md`. Skip PR creation if the branch is the default branch.
+- Open or update the PR with `gh pr create --web` / `gh pr edit`, using the prompt in `steps/pr.md`. Skip PR creation if the branch is the default branch.
 
 ## Handling findings
 
