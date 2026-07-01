@@ -49,13 +49,13 @@ brew-setup: link-brew
 	grep -q 'brew shellenv' $$HOME/.zprofile || echo 'eval "$$($(BREW) shellenv)"' >> $$HOME/.zprofile
 
 brew-install:
-	$(BUNDLE)
+	eval "$$($(BREW) shellenv sh)" && $(BUNDLE)
 
 brew-dump:
-	$(BUNDLE) dump --force --no-vscode
+	eval "$$($(BREW) shellenv sh)" && $(BUNDLE) dump --force --no-vscode
 
 brew-prune:
-	$(BUNDLE) cleanup --force --no-vscode
+	eval "$$($(BREW) shellenv sh)" && $(BUNDLE) cleanup --force --no-vscode
 
 git-setup: link-git
 
