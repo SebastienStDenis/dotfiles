@@ -1,4 +1,4 @@
-.PHONY: help bootstrap dump brew-setup brew-install brew-dump brew-prune git-setup omz-setup iterm2-setup cursor-setup cursor-dump link-git link-zsh link-brew link-claude link-cursor
+.PHONY: help bootstrap dump brew-setup brew-install brew-dump brew-prune git-setup omz-setup iterm2-setup cursor-setup cursor-dump claude-setup link-git link-zsh link-brew link-claude link-cursor
 
 CURSOR_USER := $(HOME)/Library/Application Support/Cursor/User
 
@@ -19,10 +19,11 @@ help:
 	@echo "  iterm2-setup   - Configure iTerm2"
 	@echo "  cursor-setup   - Link Cursor settings and install extensions"
 	@echo "  cursor-dump    - Overwrite Cursor extensions.txt from current environment"
+	@echo "  claude-setup   - Link Claude config and install enabled plugins"
 	@echo "  link-git       - Link git dotfile"
 	@echo "  link-zsh       - Link zsh dotfile"
 	@echo "  link-brew      - Link Brewfile"
-	@echo "  link-claude    - Link Claude CLAUDE.md, agents, commands, and skills"
+	@echo "  link-claude    - Link Claude CLAUDE.md, settings, agents, commands, and skills"
 	@echo "  link-cursor    - Link Cursor settings.json"
 
 define backup_and_link
@@ -89,8 +90,16 @@ link-zsh:
 link-brew:
 	@$(call backup_and_link,"$(CURDIR)/brew/.Brewfile","$$HOME/.Brewfile")
 
+claude-setup: link-claude
+	@python3 -c "import json; print('\n'.join(json.load(open('$(CURDIR)/claude/settings.json')).get('enabledPlugins', {})))" | \
+	while read -r plugin; do \
+		[ -z "$$plugin" ] && continue; \
+		claude plugin install "$$plugin" || true; \
+	done
+
 link-claude:
 	@$(call backup_and_link,"$(CURDIR)/claude/CLAUDE.md","$$HOME/.claude/CLAUDE.md")
+	@$(call backup_and_link,"$(CURDIR)/claude/settings.json","$$HOME/.claude/settings.json")
 	@$(call backup_and_link,"$(CURDIR)/claude/agents","$$HOME/.claude/agents")
 	@$(call backup_and_link,"$(CURDIR)/claude/commands","$$HOME/.claude/commands")
 	@$(call backup_and_link,"$(CURDIR)/claude/skills","$$HOME/.claude/skills")
