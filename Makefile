@@ -73,13 +73,14 @@ iterm2-setup:
 	killall cfprefsd
 
 cursor-setup: link-cursor
-	@while read -r ext; do \
+	@eval "$$($(BREW) shellenv sh)"; \
+	while read -r ext; do \
 		[ -z "$$ext" ] && continue; \
 		cursor --install-extension "$$ext"; \
 	done < "$(CURDIR)/cursor/extensions.txt"
 
 cursor-dump:
-	cursor --list-extensions > "$(CURDIR)/cursor/extensions.txt"
+	eval "$$($(BREW) shellenv sh)" && cursor --list-extensions > "$(CURDIR)/cursor/extensions.txt"
 
 link-git:
 	@$(call backup_and_link,"$(CURDIR)/git/.gitconfig","$$HOME/.gitconfig")
