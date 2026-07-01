@@ -40,6 +40,8 @@ brew "tree"
 brew "uv"
 # UNIX shell (command interpreter)
 brew "zsh"
+# Write, edit, and chat about your code with AI
+cask "cursor"
 # App to build and share containerised applications and microservices
 cask "docker-desktop"
 cask "font-ubuntu-sans-nerd-font"
@@ -53,8 +55,6 @@ cask "stats"
 cask "sublime-text"
 # Mesh VPN based on WireGuard
 cask "tailscale-app"
-# Open-source code editor
-cask "visual-studio-code"
 uv "httpie"
 npm "pyright"
 npm "typescript-language-server"

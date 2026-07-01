@@ -3,3 +3,7 @@
 *.swo
 *~
 
+# Claude Code (local-only)
+.claude/settings.local.json
+.claude/worktrees/
+
