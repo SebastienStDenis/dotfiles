@@ -10,6 +10,8 @@ brew "fzf"
 brew "gh"
 # Distributed revision control system
 brew "git"
+# Trim your git remote tracking branches that are merged or gone
+brew "git-trim"
 # Kubernetes package manager
 brew "helm"
 # Kubernetes CLI To Manage Your Clusters In Style!
