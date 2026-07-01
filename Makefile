@@ -2,7 +2,7 @@
 
 CURSOR_USER := $(HOME)/Library/Application Support/Cursor/User
 
-BUNDLEFLAGS  := --global --no-vscode
+BUNDLEFLAGS  := --global
 BIN          := /opt/homebrew/bin
 BREW         := $(BIN)/brew
 BUNDLE       := $(BREW) bundle $(BUNDLEFLAGS)
@@ -52,10 +52,10 @@ brew-install:
 	$(BUNDLE)
 
 brew-dump:
-	$(BUNDLE) dump --force
+	$(BUNDLE) dump --force --no-vscode
 
 brew-prune:
-	$(BUNDLE) cleanup --force
+	$(BUNDLE) cleanup --force --no-vscode
 
 git-setup: link-git
 
