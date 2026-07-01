@@ -23,7 +23,5 @@
         "plaintext",
         "scminput"
     ],
-    "workbench.colorCustomizations": {
-        
-    }
+    "gitlens.currentLine.enabled": false
 }

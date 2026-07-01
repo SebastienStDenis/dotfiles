@@ -12,6 +12,7 @@
 - Direct. Skip "great question" preambles and closing flattery.
 - When you disagree with me, say so and explain why. I'd rather be corrected than agreed with.
 - If you're uncertain, say so. Don't hedge by adding caveats to confident answers.
+- Never use em-dashes (—). Use regular dashes (-) instead.
 
 ### Code style
 - Match the surrounding code's style before introducing your own.
@@ -25,3 +26,9 @@
 - Before saying "done": run the linter, typechecker, build, relevant tests, or whatever other checks the repo has.
 - Don't claim a fix works unless you've actually executed it.
 - If you can't verify something (no test infra, can't reproduce), say so explicitly. Don't pretend.
+
+### Branch & PR naming
+- Defer to the project's own conventions when they exist (existing branch/PR history, CONTRIBUTING, project CLAUDE.md). The rules below are the default when nothing else applies.
+- Branches: `<type>/<short-kebab-description>`, e.g. `feat/user-auth`, `fix/login-redirect`. Types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `build`, `ci`, `style`, `perf`, `revert`.
+- PR titles: Conventional Commits - `<type>(<scope>): <imperative summary>` or `<type>: <imperative summary>`, e.g. `feat(auth): add login`. Scope is optional. Keep the summary under ~50 chars, lowercase, no trailing period.
+- Reference the issue in the PR body (`Closes #123`), not the branch name.
