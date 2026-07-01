@@ -45,3 +45,5 @@
     pl = pull
     ps = push
     wt = worktree
+    tr = trim
+
