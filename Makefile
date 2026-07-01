@@ -1,4 +1,4 @@
-.PHONY: help bootstrap brew-setup brew-install brew-dump brew-prune git-setup omz-setup iterm2-setup cursor-setup cursor-dump link-git link-zsh link-brew link-claude link-cursor
+.PHONY: help bootstrap dump brew-setup brew-install brew-dump brew-prune git-setup omz-setup iterm2-setup cursor-setup cursor-dump link-git link-zsh link-brew link-claude link-cursor
 
 CURSOR_USER := $(HOME)/Library/Application Support/Cursor/User
 
@@ -9,6 +9,7 @@ BUNDLE       := $(BREW) bundle $(BUNDLEFLAGS)
 
 help:
 	@echo "  bootstrap-mac  - Bootstrap the development environmenton mac (backs up existing dotfiles)"
+	@echo "  dump           - Run all dumps (brew-dump, cursor-dump)"
 	@echo "  brew-setup     - Install Homebrew"
 	@echo "  brew-install   - Install packages from Brewfile"
 	@echo "  brew-dump      - Overwrite Brewfile from current environment"
@@ -40,6 +41,8 @@ define backup_and_link
 endef
 
 bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup link-claude brew-dump
+
+dump: brew-dump cursor-dump
 
 brew-setup: link-brew
 	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
