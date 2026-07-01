@@ -4,6 +4,7 @@ fi
 
 alias g='git'
 alias dc='docker'
+alias ca='claude agents'
 
 # Open Cursor at the current folder's git root (falls back to cwd)
 c() {
