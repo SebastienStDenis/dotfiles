@@ -1,31 +1,24 @@
-.PHONY: help bootstrap dump brew-setup brew-install brew-dump brew-prune git-setup omz-setup iterm2-setup cursor-setup cursor-dump claude-setup link-git link-zsh link-brew link-claude link-cursor
-
+# ── Config ─────────────────────────────────────────────────────────────
 CURSOR_USER := $(HOME)/Library/Application Support/Cursor/User
+LOCAL_BIN   := $(HOME)/.local/bin
 
-BUNDLEFLAGS  := --global
-BIN          := /opt/homebrew/bin
-BREW         := $(BIN)/brew
-BUNDLE       := $(BREW) bundle $(BUNDLEFLAGS)
+BUNDLEFLAGS := --global
+BIN         := /opt/homebrew/bin
+BREW        := $(BIN)/brew
+BUNDLE      := $(BREW) bundle $(BUNDLEFLAGS)
 
-help:
-	@echo "  bootstrap-mac  - Bootstrap the development environmenton mac (backs up existing dotfiles)"
-	@echo "  dump           - Run all dumps (brew-dump, cursor-dump)"
-	@echo "  brew-setup     - Install Homebrew"
-	@echo "  brew-install   - Install packages from Brewfile"
-	@echo "  brew-dump      - Overwrite Brewfile from current environment"
-	@echo "  brew-prune     - Remove packages not in Brewfile"
-	@echo "  git-setup      - Configure git"
-	@echo "  omz-setup      - Install Oh My Zsh and plugins"
-	@echo "  iterm2-setup   - Configure iTerm2"
-	@echo "  cursor-setup   - Link Cursor settings and install extensions"
-	@echo "  cursor-dump    - Overwrite Cursor extensions.txt from current environment"
-	@echo "  claude-setup   - Install Claude Code, link config, and install enabled plugins"
-	@echo "  link-git       - Link git dotfile"
-	@echo "  link-zsh       - Link zsh dotfile"
-	@echo "  link-brew      - Link Brewfile"
-	@echo "  link-claude    - Link Claude CLAUDE.md, settings, agents, commands, and skills"
-	@echo "  link-cursor    - Link Cursor settings.json"
+# Put brew-installed tools (cursor, etc.) on PATH inside a recipe.
+SHELLENV    := eval "$$($(BREW) shellenv sh)"
 
+.PHONY: help \
+        bootstrap-mac dump \
+        brew-setup brew-install brew-dump brew-prune \
+        git-setup omz-setup iterm2-setup cursor-setup cursor-dump claude-setup \
+        link-git link-zsh link-brew link-claude link-cursor
+
+.DEFAULT_GOAL := help
+
+# Back up an existing dest (unless it's already a symlink), then link src -> dest.
 define backup_and_link
 	set -e; \
 	src=$(1); dest=$(2); \
@@ -41,63 +34,62 @@ define backup_and_link
 	echo "Linked $$dest to $$src"
 endef
 
-bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup claude-setup
+# ── Help ───────────────────────────────────────────────────────────────
+help: ## Show this help
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## ' $(MAKEFILE_LIST) | \
+		awk 'BEGIN{FS=":.*?## "}{printf "  %-14s %s\n", $$1, $$2}'
 
-dump: brew-dump cursor-dump
+# ── Aggregates ─────────────────────────────────────────────────────────
+bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup claude-setup ## Bootstrap the development environment on mac (backs up existing dotfiles)
 
-brew-setup: link-brew
+dump: brew-dump cursor-dump ## Run all dumps (brew-dump, cursor-dump)
+
+# ── Homebrew ───────────────────────────────────────────────────────────
+brew-setup: link-brew ## Install Homebrew
 	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-	grep -q 'brew shellenv' $$HOME/.zprofile || echo 'eval "$$($(BREW) shellenv)"' >> $$HOME/.zprofile
+	grep -qs 'brew shellenv' $(HOME)/.zprofile || echo 'eval "$$($(BREW) shellenv)"' >> $(HOME)/.zprofile
 
-brew-install:
-	eval "$$($(BREW) shellenv sh)" && $(BUNDLE)
+brew-install: ## Install packages from Brewfile
+	$(SHELLENV) && $(BUNDLE)
 
-brew-dump:
-	eval "$$($(BREW) shellenv sh)" && $(BUNDLE) dump --force --no-vscode
+brew-dump: ## Overwrite Brewfile from current environment
+	$(SHELLENV) && $(BUNDLE) dump --force --no-vscode
 
-brew-prune:
-	eval "$$($(BREW) shellenv sh)" && $(BUNDLE) cleanup --force --no-vscode
+brew-prune: ## Remove packages not in Brewfile
+	$(SHELLENV) && $(BUNDLE) cleanup --force --no-vscode
 
-git-setup: link-git
+# ── Tools ──────────────────────────────────────────────────────────────
+git-setup: link-git ## Configure git
 
-omz-setup: link-zsh
-	@if [ ! -d "$$HOME/.oh-my-zsh" ]; then \
+omz-setup: link-zsh ## Install Oh My Zsh and plugins
+	@if [ ! -d "$(HOME)/.oh-my-zsh" ]; then \
 		RUNZSH=no KEEP_ZSHRC=yes \
 		sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; \
 	else \
 		echo "Oh My Zsh already installed, skipping"; \
 	fi
-	git clone https://github.com/zsh-users/zsh-autosuggestions $$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions || true
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting $$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting || true
+	git clone https://github.com/zsh-users/zsh-autosuggestions $(HOME)/.oh-my-zsh/custom/plugins/zsh-autosuggestions || true
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting $(HOME)/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting || true
 
-iterm2-setup:
+iterm2-setup: ## Configure iTerm2
 	/usr/bin/defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$(CURDIR)/iterm2"
 	/usr/bin/defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
 	osascript -e 'tell application "iTerm2" to quit'
 	killall cfprefsd
 
-cursor-setup: link-cursor
-	@eval "$$($(BREW) shellenv sh)"; \
+cursor-setup: link-cursor ## Link Cursor settings and install extensions
+	@$(SHELLENV); \
 	while read -r ext; do \
 		[ -z "$$ext" ] && continue; \
 		cursor --install-extension "$$ext"; \
 	done < "$(CURDIR)/cursor/extensions.txt"
 
-cursor-dump:
-	eval "$$($(BREW) shellenv sh)" && cursor --list-extensions > "$(CURDIR)/cursor/extensions.txt"
+cursor-dump: ## Overwrite Cursor extensions.txt from current environment
+	$(SHELLENV) && cursor --list-extensions > "$(CURDIR)/cursor/extensions.txt"
 
-link-git:
-	@$(call backup_and_link,"$(CURDIR)/git/.gitconfig","$$HOME/.gitconfig")
-
-link-zsh:
-	@$(call backup_and_link,"$(CURDIR)/zsh/.zshrc","$$HOME/.zshrc")
-
-link-brew:
-	@$(call backup_and_link,"$(CURDIR)/brew/.Brewfile","$$HOME/.Brewfile")
-
-claude-setup: link-claude
+claude-setup: link-claude ## Install Claude Code, link config, and install enabled plugins
 	curl -fsSL https://claude.ai/install.sh | bash
-	@export PATH="$$HOME/.local/bin:$$PATH"; \
+	@export PATH="$(LOCAL_BIN):$$PATH"; \
 	python3 -c "import json; print('\n'.join(m['source']['repo'] for m in json.load(open('$(CURDIR)/claude/settings.json')).get('extraKnownMarketplaces', {}).values()))" | \
 	while read -r repo; do \
 		[ -z "$$repo" ] && continue; \
@@ -110,12 +102,22 @@ claude-setup: link-claude
 		claude plugin install "$$plugin" || true; \
 	done
 
-link-claude:
-	@$(call backup_and_link,"$(CURDIR)/claude/CLAUDE.md","$$HOME/.claude/CLAUDE.md")
-	@$(call backup_and_link,"$(CURDIR)/claude/settings.json","$$HOME/.claude/settings.json")
-	@$(call backup_and_link,"$(CURDIR)/claude/agents","$$HOME/.claude/agents")
-	@$(call backup_and_link,"$(CURDIR)/claude/commands","$$HOME/.claude/commands")
-	@$(call backup_and_link,"$(CURDIR)/claude/skills","$$HOME/.claude/skills")
+# ── Link helpers ───────────────────────────────────────────────────────
+link-git: ## Link git dotfile
+	@$(call backup_and_link,"$(CURDIR)/git/.gitconfig","$(HOME)/.gitconfig")
 
-link-cursor:
+link-zsh: ## Link zsh dotfile
+	@$(call backup_and_link,"$(CURDIR)/zsh/.zshrc","$(HOME)/.zshrc")
+
+link-brew: ## Link Brewfile
+	@$(call backup_and_link,"$(CURDIR)/brew/.Brewfile","$(HOME)/.Brewfile")
+
+link-claude: ## Link Claude CLAUDE.md, settings, agents, commands, and skills
+	@$(call backup_and_link,"$(CURDIR)/claude/CLAUDE.md","$(HOME)/.claude/CLAUDE.md")
+	@$(call backup_and_link,"$(CURDIR)/claude/settings.json","$(HOME)/.claude/settings.json")
+	@$(call backup_and_link,"$(CURDIR)/claude/agents","$(HOME)/.claude/agents")
+	@$(call backup_and_link,"$(CURDIR)/claude/commands","$(HOME)/.claude/commands")
+	@$(call backup_and_link,"$(CURDIR)/claude/skills","$(HOME)/.claude/skills")
+
+link-cursor: ## Link Cursor settings.json
 	@$(call backup_and_link,"$(CURDIR)/cursor/settings.json","$(CURSOR_USER)/settings.json")
