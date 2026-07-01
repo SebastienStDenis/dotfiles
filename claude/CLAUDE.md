@@ -23,6 +23,11 @@
 - Prefer explicit over clever. Prefer boring over impressive.
 - Names should describe intent, not type or implementation.
 
+### No conversational residue
+- Write every change as if the final version was the plan from the start. The repo records where we landed, not how we got there.
+- Never leave comments referencing the conversation or a prior approach ("use B instead of A", "as requested", "switched from X"). Just write the final code.
+- Delete replaced code. No commented-out blocks, no dead code, no "keeping for reference".
+
 ### Verification
 - Before saying "done": run the linter, typechecker, build, relevant tests, or whatever other checks the repo has.
 - Don't claim a fix works unless you've actually executed it.
