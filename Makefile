@@ -2,9 +2,6 @@
 
 CURSOR_USER := $(HOME)/Library/Application Support/Cursor/User
 
-# --no-vscode is only valid on the dump/cleanup subcommands (not install), so
-# it is applied per-target rather than shared here. Cursor extensions are
-# managed separately via cursor/extensions.txt.
 BUNDLEFLAGS  := --global
 BIN          := /opt/homebrew/bin
 BREW         := $(BIN)/brew

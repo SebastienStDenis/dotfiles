@@ -18,7 +18,7 @@
 - Match the surrounding code's style before introducing your own.
 - Small, focused changes. If a refactor starts sprawling, stop and check in.
 - No drive-by reformatting of files you weren't asked to touch.
-- Comments explain *why*, not *what*.
+- Avoid comments unless completely necessary. When one is truly needed, it explains *why*, not *what*.
 - Prefer explicit over clever. Prefer boring over impressive.
 - Names should describe intent, not type or implementation.
 
