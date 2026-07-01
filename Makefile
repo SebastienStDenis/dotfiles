@@ -68,14 +68,15 @@ omz-setup: link-zsh ## Install Oh My Zsh and plugins
 	else \
 		echo "Oh My Zsh already installed, skipping"; \
 	fi
-	git clone https://github.com/zsh-users/zsh-autosuggestions $(HOME)/.oh-my-zsh/custom/plugins/zsh-autosuggestions || true
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting $(HOME)/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting || true
+	@[ -d "$(HOME)/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ] || \
+		git clone https://github.com/zsh-users/zsh-autosuggestions $(HOME)/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+	@[ -d "$(HOME)/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ] || \
+		git clone https://github.com/zsh-users/zsh-syntax-highlighting $(HOME)/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 
 iterm2-setup: ## Configure iTerm2
 	/usr/bin/defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$(CURDIR)/iterm2"
 	/usr/bin/defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
-	osascript -e 'tell application "iTerm2" to quit'
-	killall cfprefsd
+	killall cfprefsd || true
 
 cursor-setup: link-cursor ## Link Cursor settings and install extensions
 	@$(SHELLENV); \
