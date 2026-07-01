@@ -19,7 +19,7 @@ help:
 	@echo "  iterm2-setup   - Configure iTerm2"
 	@echo "  cursor-setup   - Link Cursor settings and install extensions"
 	@echo "  cursor-dump    - Overwrite Cursor extensions.txt from current environment"
-	@echo "  claude-setup   - Link Claude config and install enabled plugins"
+	@echo "  claude-setup   - Install Claude Code, link config, and install enabled plugins"
 	@echo "  link-git       - Link git dotfile"
 	@echo "  link-zsh       - Link zsh dotfile"
 	@echo "  link-brew      - Link Brewfile"
@@ -41,7 +41,7 @@ define backup_and_link
 	echo "Linked $$dest to $$src"
 endef
 
-bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup link-claude brew-dump
+bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup claude-setup brew-dump
 
 dump: brew-dump cursor-dump
 
@@ -92,6 +92,7 @@ link-brew:
 	@$(call backup_and_link,"$(CURDIR)/brew/.Brewfile","$$HOME/.Brewfile")
 
 claude-setup: link-claude
+	curl -fsSL https://claude.ai/install.sh | bash
 	@python3 -c "import json; print('\n'.join(json.load(open('$(CURDIR)/claude/settings.json')).get('enabledPlugins', {})))" | \
 	while read -r plugin; do \
 		[ -z "$$plugin" ] && continue; \
