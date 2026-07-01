@@ -98,6 +98,12 @@ link-brew:
 claude-setup: link-claude
 	curl -fsSL https://claude.ai/install.sh | bash
 	@export PATH="$$HOME/.local/bin:$$PATH"; \
+	python3 -c "import json; print('\n'.join(m['source']['repo'] for m in json.load(open('$(CURDIR)/claude/settings.json')).get('extraKnownMarketplaces', {}).values()))" | \
+	while read -r repo; do \
+		[ -z "$$repo" ] && continue; \
+		claude plugin marketplace add "$$repo" || true; \
+	done; \
+	claude plugin marketplace update || true; \
 	python3 -c "import json; print('\n'.join(json.load(open('$(CURDIR)/claude/settings.json')).get('enabledPlugins', {})))" | \
 	while read -r plugin; do \
 		[ -z "$$plugin" ] && continue; \
