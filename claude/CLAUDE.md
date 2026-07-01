@@ -3,6 +3,7 @@
 ## How I want you to work
 
 ### Default workflow: research → plan → execute → verify
+- Never edit files on `main`/`master`. Create a feature branch first.
 - For anything non-trivial, start in plan mode. Read the relevant files first, propose a plan, wait for approval before editing.
 - For tiny edits (typos, one-line fixes), skip planning and just do it.
 - After implementing, verify before declaring done. "It compiles" is not "it works."
