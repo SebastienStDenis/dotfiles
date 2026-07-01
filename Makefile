@@ -1,4 +1,6 @@
-.PHONY: help bootstrap brew-setup brew-install brew-dump brew-prune git-setup omz-setup iterm2-setup link-git link-zsh link-brew link-claude
+.PHONY: help bootstrap brew-setup brew-install brew-dump brew-prune git-setup omz-setup iterm2-setup cursor-setup cursor-dump link-git link-zsh link-brew link-claude link-cursor
+
+CURSOR_USER := $(HOME)/Library/Application Support/Cursor/User
 
 BUNDLEFLAGS  := --global --no-vscode
 BIN          := /opt/homebrew/bin
@@ -14,14 +16,17 @@ help:
 	@echo "  git-setup      - Configure git"
 	@echo "  omz-setup      - Install Oh My Zsh and plugins"
 	@echo "  iterm2-setup   - Configure iTerm2"
+	@echo "  cursor-setup   - Link Cursor settings and install extensions"
+	@echo "  cursor-dump    - Overwrite Cursor extensions.txt from current environment"
 	@echo "  link-git       - Link git dotfile"
 	@echo "  link-zsh       - Link zsh dotfile"
 	@echo "  link-brew      - Link Brewfile"
 	@echo "  link-claude    - Link Claude CLAUDE.md, agents, commands, and skills"
+	@echo "  link-cursor    - Link Cursor settings.json"
 
 define backup_and_link
 	set -e; \
-	src="$(1)"; dest="$(2)"; \
+	src=$(1); dest=$(2); \
 	if [ -L "$$dest" ]; then \
 		rm "$$dest"; \
 	elif [ -e "$$dest" ]; then \
@@ -34,7 +39,7 @@ define backup_and_link
 	echo "Linked $$dest to $$src"
 endef
 
-bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup link-claude brew-dump
+bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup link-claude brew-dump
 
 brew-setup: link-brew
 	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -63,6 +68,15 @@ iterm2-setup:
 	osascript -e 'tell application "iTerm2" to quit'
 	killall cfprefsd
 
+cursor-setup: link-cursor
+	@while read -r ext; do \
+		[ -z "$$ext" ] && continue; \
+		cursor --install-extension "$$ext"; \
+	done < "$(CURDIR)/cursor/extensions.txt"
+
+cursor-dump:
+	cursor --list-extensions > "$(CURDIR)/cursor/extensions.txt"
+
 link-git:
 	@$(call backup_and_link,"$(CURDIR)/git/.gitconfig","$$HOME/.gitconfig")
 
@@ -77,3 +91,6 @@ link-claude:
 	@$(call backup_and_link,"$(CURDIR)/claude/agents","$$HOME/.claude/agents")
 	@$(call backup_and_link,"$(CURDIR)/claude/commands","$$HOME/.claude/commands")
 	@$(call backup_and_link,"$(CURDIR)/claude/skills","$$HOME/.claude/skills")
+
+link-cursor:
+	@$(call backup_and_link,"$(CURDIR)/cursor/settings.json","$(CURSOR_USER)/settings.json")
