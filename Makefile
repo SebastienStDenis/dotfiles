@@ -93,7 +93,8 @@ link-brew:
 
 claude-setup: link-claude
 	curl -fsSL https://claude.ai/install.sh | bash
-	@python3 -c "import json; print('\n'.join(json.load(open('$(CURDIR)/claude/settings.json')).get('enabledPlugins', {})))" | \
+	@export PATH="$$HOME/.local/bin:$$PATH"; \
+	python3 -c "import json; print('\n'.join(json.load(open('$(CURDIR)/claude/settings.json')).get('enabledPlugins', {})))" | \
 	while read -r plugin; do \
 		[ -z "$$plugin" ] && continue; \
 		claude plugin install "$$plugin" || true; \
