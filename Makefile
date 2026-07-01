@@ -2,7 +2,10 @@
 
 CURSOR_USER := $(HOME)/Library/Application Support/Cursor/User
 
-BUNDLEFLAGS  := --global --no-vscode
+# --no-vscode is only valid on the dump/cleanup subcommands (not install), so
+# it is applied per-target rather than shared here. Cursor extensions are
+# managed separately via cursor/extensions.txt.
+BUNDLEFLAGS  := --global
 BIN          := /opt/homebrew/bin
 BREW         := $(BIN)/brew
 BUNDLE       := $(BREW) bundle $(BUNDLEFLAGS)
@@ -52,10 +55,10 @@ brew-install:
 	$(BUNDLE)
 
 brew-dump:
-	$(BUNDLE) dump --force
+	$(BUNDLE) dump --force --no-vscode
 
 brew-prune:
-	$(BUNDLE) cleanup --force
+	$(BUNDLE) cleanup --force --no-vscode
 
 git-setup: link-git
 
