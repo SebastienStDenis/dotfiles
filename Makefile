@@ -41,7 +41,7 @@ define backup_and_link
 	echo "Linked $$dest to $$src"
 endef
 
-bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup claude-setup brew-dump
+bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup claude-setup
 
 dump: brew-dump cursor-dump
 
