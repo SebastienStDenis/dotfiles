@@ -61,8 +61,12 @@ brew-prune:
 git-setup: link-git
 
 omz-setup: link-zsh
-	RUNZSH=no KEEP_ZSHRC=yes \
-	sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	@if [ ! -d "$$HOME/.oh-my-zsh" ]; then \
+		RUNZSH=no KEEP_ZSHRC=yes \
+		sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; \
+	else \
+		echo "Oh My Zsh already installed, skipping"; \
+	fi
 	git clone https://github.com/zsh-users/zsh-autosuggestions $$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions || true
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting $$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting || true
 
