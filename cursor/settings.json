@@ -1,0 +1,29 @@
+{
+    "editor.minimap.enabled": false,
+    "editor.fontFamily": "'UbuntuSansMono Nerd Font', 'Comic Sans MS', monospace",
+    "window.autoDetectColorScheme": true,
+    "workbench.preferredDarkColorTheme": "Nord Dark",
+    "workbench.preferredLightColorTheme": "Nord Light",
+    "explorer.confirmDelete": false,
+    "makefile.configureOnOpen": true,
+    "editor.renderLineHighlight": "none",
+    "git.autofetch": true,
+    "explorer.confirmDragAndDrop": false,
+    "window.commandCenter": false,
+    "[python]": {
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.defaultColorDecorators": "never",
+        "editor.formatOnType": true,
+        "editor.wordBasedSuggestions": "off"
+    },
+    "redhat.telemetry.enabled": false,
+    "git.blame.editorDecoration.enabled": false,
+    "git.blame.statusBarItem.enabled": true,
+    "cursor.cpp.disabledLanguages": [
+        "plaintext",
+        "scminput"
+    ],
+    "workbench.colorCustomizations": {
+        
+    }
+}
