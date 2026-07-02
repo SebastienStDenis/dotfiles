@@ -55,6 +55,8 @@ cask "font-ubuntu-sans-nerd-font"
 cask "google-chrome"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
+# Customise mouse behavior
+cask "linearmouse"
 # App to write, plan, collaborate, and get organised
 cask "notion"
 # Run macOS virtual machines locally and build images for use with Orka
