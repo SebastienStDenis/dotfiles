@@ -8,6 +8,7 @@ alias g='git'
 alias d='docker'
 alias dc='docker compose'
 alias ca='claude agents'
+alias brup='brew update && brew upgrade && brew cleanup'
 
 # Open Cursor at the current folder's git root (falls back to cwd)
 c() {
