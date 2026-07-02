@@ -8,7 +8,7 @@ BUNDLE := $(BREW) bundle --global
 SHELLENV := eval "$$($(BREW) shellenv sh)"
 
 .PHONY: help \
-        bootstrap-mac dump \
+        bootstrap-mac bootstrap-linux dump \
         brew-setup brew-install brew-dump brew-prune \
         git-setup omz-setup iterm2-setup cursor-setup cursor-dump claude-setup \
         link-git link-zsh link-brew link-claude link-cursor
@@ -39,6 +39,8 @@ help: ## Show this help
 # ── Aggregates ─────────────────────────────────────────────────────────
 bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup claude-setup ## Bootstrap the development environment on mac (backs up existing dotfiles)
 
+bootstrap-linux: git-setup omz-setup ## Bootstrap git and zsh on linux (backs up existing dotfiles)
+
 dump: brew-dump cursor-dump ## Run all dumps (brew-dump, cursor-dump)
 
 # ── Homebrew ───────────────────────────────────────────────────────────
@@ -63,9 +65,13 @@ brew-prune: ## Remove packages not in Brewfile
 # ── Tools ──────────────────────────────────────────────────────────────
 git-setup: link-git ## Configure git
 
-omz-setup: link-zsh ## Install Oh My Zsh
+omz-setup: link-zsh ## Install Oh My Zsh and plugins
 	@[ -d "$(HOME)/.oh-my-zsh" ] || \
 		RUNZSH=no KEEP_ZSHRC=yes sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	@[ -d "$(HOME)/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ] || \
+		git clone https://github.com/zsh-users/zsh-autosuggestions "$(HOME)/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+	@[ -d "$(HOME)/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ] || \
+		git clone https://github.com/zsh-users/zsh-syntax-highlighting "$(HOME)/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 
 iterm2-setup: ## Configure iTerm2
 	/usr/bin/defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$(CURDIR)/iterm2"
