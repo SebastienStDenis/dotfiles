@@ -85,12 +85,16 @@ cursor-setup: link-cursor ## Link Cursor settings and install extensions
 cursor-dump: ## Overwrite Cursor extensions.txt from current environment
 	$(SHELLENV) && cursor --list-extensions > "$(CURDIR)/cursor/extensions.txt"
 
-claude-setup: link-claude ## Link Claude config and install plugins
+claude-setup: link-claude ## Link Claude config and install plugins from settings.json
 	@$(SHELLENV); \
-	claude plugin marketplace add anthropics/claude-plugins-official || true; \
-	claude plugin install context7@claude-plugins-official || true; \
-	claude plugin install typescript-lsp@claude-plugins-official || true; \
-	claude plugin install pyright-lsp@claude-plugins-official || true
+	jq -r '(.extraKnownMarketplaces // {})[].source.repo' "$(CURDIR)/claude/settings.json" | \
+	while read -r repo; do \
+		claude plugin marketplace add "$$repo" || true; \
+	done; \
+	jq -r '.enabledPlugins // {} | keys[]' "$(CURDIR)/claude/settings.json" | \
+	while read -r plugin; do \
+		claude plugin install "$$plugin" || true; \
+	done
 
 # ── Link helpers ───────────────────────────────────────────────────────
 link-git: ## Link git dotfile
