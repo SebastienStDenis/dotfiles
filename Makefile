@@ -43,7 +43,8 @@ dump: brew-dump cursor-dump ## Run all dumps (brew-dump, cursor-dump)
 
 # ── Homebrew ───────────────────────────────────────────────────────────
 brew-setup: link-brew ## Install Homebrew
-	@[ -x "$(BREW)" ] || /bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	@[ -x "$(BREW)" ] || \
+		/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 brew-install: ## Install packages from Brewfile (retries transient failures)
 	@for i in 1 2; do \
@@ -63,12 +64,8 @@ brew-prune: ## Remove packages not in Brewfile
 git-setup: link-git ## Configure git
 
 omz-setup: link-zsh ## Install Oh My Zsh
-	@if [ ! -d "$(HOME)/.oh-my-zsh" ]; then \
-		RUNZSH=no KEEP_ZSHRC=yes \
-		sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; \
-	else \
-		echo "Oh My Zsh already installed, skipping"; \
-	fi
+	@[ -d "$(HOME)/.oh-my-zsh" ] || \
+		RUNZSH=no KEEP_ZSHRC=yes sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 iterm2-setup: ## Configure iTerm2
 	/usr/bin/defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$(CURDIR)/iterm2"
