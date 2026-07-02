@@ -49,8 +49,15 @@ brew-setup: link-brew ## Install Homebrew
 	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	grep -qs 'brew shellenv' $(HOME)/.zprofile || echo 'eval "$$($(BREW) shellenv)"' >> $(HOME)/.zprofile
 
-brew-install: ## Install packages from Brewfile
-	$(SHELLENV) && $(BUNDLE)
+brew-install: ## Install packages from Brewfile (retries transient failures)
+	@$(SHELLENV); \
+	for i in 1 2 3; do \
+		$(BUNDLE) && exit 0; \
+		echo "brew bundle attempt $$i failed; retrying in 5s..." >&2; \
+		sleep 5; \
+	done; \
+	echo "brew bundle still failing after 3 attempts" >&2; \
+	exit 1
 
 brew-dump: ## Overwrite Brewfile from current environment
 	$(SHELLENV) && $(BUNDLE) dump --force --no-vscode
