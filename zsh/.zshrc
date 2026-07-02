@@ -32,7 +32,6 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 export FZF_DEFAULT_OPTS="--height=40%"
 
 plugins=(
-  git
   z
   fzf
   docker

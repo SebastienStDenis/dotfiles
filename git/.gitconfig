@@ -35,7 +35,7 @@
     ad = add
     br = branch
     sw = switch
-    ch = cherry-pick
+    cp = cherry-pick
     cm = commit
     rs = reset
     df = diff
