@@ -26,10 +26,6 @@ brew "kubernetes-cli"
 brew "kustomize"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
-# Execute binaries from Python packages in isolated environments
-brew "pipx"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.13"
 # Tail multiple Kubernetes pods & their containers
 brew "stern"
 # Define your dev environment as code. For microservice apps on Kubernetes
@@ -42,22 +38,26 @@ brew "tree"
 brew "uv"
 # UNIX shell (command interpreter)
 brew "zsh"
+# Desktop password and login vault
+cask "bitwarden"
+# Anthropic's official Claude AI desktop app
+cask "claude"
+# Terminal-based AI coding assistant
+cask "claude-code@latest"
 # Write, edit, and chat about your code with AI
 cask "cursor"
 # App to build and share containerised applications and microservices
 cask "docker-desktop"
 cask "font-ubuntu-sans-nerd-font"
+# Web browser
+cask "google-chrome"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
+# App to write, plan, collaborate, and get organised
+cask "notion"
 # Run macOS virtual machines locally and build images for use with Orka
 cask "orka-desktop"
 # System monitor for the menu bar
 cask "stats"
-# Text editor for code, markup and prose
-cask "sublime-text"
 # Mesh VPN based on WireGuard
 cask "tailscale-app"
-uv "httpie"
-npm "pyright"
-npm "typescript-language-server"
-npm "typescript"
