@@ -93,9 +93,8 @@ claude-setup: link-claude ## Link Claude config and install plugins
 	claude plugin install pyright-lsp@claude-plugins-official || true
 
 # ── Link helpers ───────────────────────────────────────────────────────
-link-git: ## Link git dotfiles
+link-git: ## Link git dotfile
 	@$(call backup_and_link,"$(CURDIR)/git/.gitconfig","$(HOME)/.gitconfig")
-	@$(call backup_and_link,"$(CURDIR)/git/ignore","$(HOME)/.config/git/ignore")
 
 link-zsh: ## Link zsh dotfile
 	@$(call backup_and_link,"$(CURDIR)/zsh/.zshrc","$(HOME)/.zshrc")
