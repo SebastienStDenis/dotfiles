@@ -5,7 +5,8 @@ if [ -d "$HOME/.local/bin" ]; then
 fi
 
 alias g='git'
-alias dc='docker'
+alias d='docker'
+alias dc='docker compose'
 alias ca='claude agents'
 
 # Open Cursor at the current folder's git root (falls back to cwd)
