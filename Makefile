@@ -1,14 +1,11 @@
 # ── Config ─────────────────────────────────────────────────────────────
 CURSOR_USER := $(HOME)/Library/Application Support/Cursor/User
-LOCAL_BIN   := $(HOME)/.local/bin
 
-BUNDLEFLAGS := --global
-BIN         := /opt/homebrew/bin
-BREW        := $(BIN)/brew
-BUNDLE      := $(BREW) bundle $(BUNDLEFLAGS)
+BREW   := /opt/homebrew/bin/brew
+BUNDLE := $(BREW) bundle --global
 
-# Put brew-installed tools (cursor, etc.) on PATH inside a recipe.
-SHELLENV    := eval "$$($(BREW) shellenv sh)"
+# Put brew-installed tools (cursor, claude, etc.) on PATH inside a recipe.
+SHELLENV := eval "$$($(BREW) shellenv sh)"
 
 .PHONY: help \
         bootstrap-mac dump \
@@ -46,39 +43,32 @@ dump: brew-dump cursor-dump ## Run all dumps (brew-dump, cursor-dump)
 
 # ── Homebrew ───────────────────────────────────────────────────────────
 brew-setup: link-brew ## Install Homebrew
-	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-	grep -qs 'brew shellenv' $(HOME)/.zprofile || echo 'eval "$$($(BREW) shellenv)"' >> $(HOME)/.zprofile
+	@[ -x "$(BREW)" ] || /bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 brew-install: ## Install packages from Brewfile (retries transient failures)
-	@$(SHELLENV); \
-	for i in 1 2 3; do \
+	@for i in 1 2; do \
 		$(BUNDLE) && exit 0; \
 		echo "brew bundle attempt $$i failed; retrying in 5s..." >&2; \
 		sleep 5; \
 	done; \
-	echo "brew bundle still failing after 3 attempts" >&2; \
-	exit 1
+	$(BUNDLE)
 
 brew-dump: ## Overwrite Brewfile from current environment
-	$(SHELLENV) && $(BUNDLE) dump --force --no-vscode
+	$(BUNDLE) dump --force --no-vscode
 
 brew-prune: ## Remove packages not in Brewfile
-	$(SHELLENV) && $(BUNDLE) cleanup --force --no-vscode
+	$(BUNDLE) cleanup --force --no-vscode
 
 # ── Tools ──────────────────────────────────────────────────────────────
 git-setup: link-git ## Configure git
 
-omz-setup: link-zsh ## Install Oh My Zsh and plugins
+omz-setup: link-zsh ## Install Oh My Zsh
 	@if [ ! -d "$(HOME)/.oh-my-zsh" ]; then \
 		RUNZSH=no KEEP_ZSHRC=yes \
 		sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; \
 	else \
 		echo "Oh My Zsh already installed, skipping"; \
 	fi
-	@[ -d "$(HOME)/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ] || \
-		git clone https://github.com/zsh-users/zsh-autosuggestions $(HOME)/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-	@[ -d "$(HOME)/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ] || \
-		git clone https://github.com/zsh-users/zsh-syntax-highlighting $(HOME)/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 
 iterm2-setup: ## Configure iTerm2
 	/usr/bin/defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$(CURDIR)/iterm2"
@@ -95,24 +85,17 @@ cursor-setup: link-cursor ## Link Cursor settings and install extensions
 cursor-dump: ## Overwrite Cursor extensions.txt from current environment
 	$(SHELLENV) && cursor --list-extensions > "$(CURDIR)/cursor/extensions.txt"
 
-claude-setup: link-claude ## Install Claude Code, link config, and install enabled plugins
-	curl -fsSL https://claude.ai/install.sh | bash
-	@export PATH="$(LOCAL_BIN):$$PATH"; \
-	python3 -c "import json; print('\n'.join(m['source']['repo'] for m in json.load(open('$(CURDIR)/claude/settings.json')).get('extraKnownMarketplaces', {}).values()))" | \
-	while read -r repo; do \
-		[ -z "$$repo" ] && continue; \
-		claude plugin marketplace add "$$repo" || true; \
-	done; \
-	claude plugin marketplace update || true; \
-	python3 -c "import json; print('\n'.join(json.load(open('$(CURDIR)/claude/settings.json')).get('enabledPlugins', {})))" | \
-	while read -r plugin; do \
-		[ -z "$$plugin" ] && continue; \
-		claude plugin install "$$plugin" || true; \
-	done
+claude-setup: link-claude ## Link Claude config and install plugins
+	@$(SHELLENV); \
+	claude plugin marketplace add anthropics/claude-plugins-official || true; \
+	claude plugin install context7@claude-plugins-official || true; \
+	claude plugin install typescript-lsp@claude-plugins-official || true; \
+	claude plugin install pyright-lsp@claude-plugins-official || true
 
 # ── Link helpers ───────────────────────────────────────────────────────
-link-git: ## Link git dotfile
+link-git: ## Link git dotfiles
 	@$(call backup_and_link,"$(CURDIR)/git/.gitconfig","$(HOME)/.gitconfig")
+	@$(call backup_and_link,"$(CURDIR)/git/ignore","$(HOME)/.config/git/ignore")
 
 link-zsh: ## Link zsh dotfile
 	@$(call backup_and_link,"$(CURDIR)/zsh/.zshrc","$(HOME)/.zshrc")

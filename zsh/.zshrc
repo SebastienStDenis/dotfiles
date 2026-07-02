@@ -1,3 +1,5 @@
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 if [ -d "$HOME/.local/bin" ]; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
@@ -33,15 +35,13 @@ plugins=(
   git
   z
   fzf
-  zsh-autosuggestions
-  zsh-syntax-highlighting
   docker
   kubectl
-  kube-ps1
   helm
   kind
-  gcloud
-  aws
 )
 
 source "$ZSH/oh-my-zsh.sh"
+
+source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
