@@ -26,8 +26,6 @@ brew "kubernetes-cli"
 brew "kustomize"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
-# Execute binaries from Python packages in isolated environments
-brew "pipx"
 # Tail multiple Kubernetes pods & their containers
 brew "stern"
 # Define your dev environment as code. For microservice apps on Kubernetes
@@ -51,6 +49,8 @@ cask "cursor"
 # App to build and share containerised applications and microservices
 cask "docker-desktop"
 cask "font-ubuntu-sans-nerd-font"
+# Web browser
+cask "google-chrome"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
 # App to write, plan, collaborate, and get organised
@@ -59,7 +59,5 @@ cask "notion"
 cask "orka-desktop"
 # System monitor for the menu bar
 cask "stats"
-# Text editor for code, markup and prose
-cask "sublime-text"
 # Mesh VPN based on WireGuard
 cask "tailscale-app"

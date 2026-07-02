@@ -5,6 +5,7 @@ bradlc.vscode-tailwindcss
 christian-kohler.npm-intellisense
 csstools.postcss
 dbaeumer.vscode-eslint
+detachhead.basedpyright
 eamodio.gitlens
 github.vscode-github-actions
 graphql.vscode-graphql
@@ -13,7 +14,6 @@ humao.rest-client
 mgmcdermott.vscode-language-babel
 ms-azuretools.vscode-containers
 ms-azuretools.vscode-docker
-ms-kubernetes-tools.vscode-kubernetes-tools
 ms-python.black-formatter
 ms-python.debugpy
 ms-python.python
