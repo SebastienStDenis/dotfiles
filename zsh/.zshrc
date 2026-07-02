@@ -1,9 +1,12 @@
+[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+
 if [ -d "$HOME/.local/bin" ]; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
 alias g='git'
-alias dc='docker'
+alias d='docker'
+alias dc='docker compose'
 alias ca='claude agents'
 
 # Open Cursor at the current folder's git root (falls back to cwd)
@@ -30,18 +33,14 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 export FZF_DEFAULT_OPTS="--height=40%"
 
 plugins=(
-  git
   z
   fzf
-  zsh-autosuggestions
-  zsh-syntax-highlighting
   docker
   kubectl
-  kube-ps1
   helm
   kind
-  gcloud
-  aws
+  zsh-autosuggestions
+  zsh-syntax-highlighting
 )
 
 source "$ZSH/oh-my-zsh.sh"
