@@ -38,6 +38,8 @@ brew "tree"
 brew "uv"
 # UNIX shell (command interpreter)
 brew "zsh"
+# Application uninstaller
+cask "appcleaner"
 # Desktop password and login vault
 cask "bitwarden"
 # Anthropic's official Claude AI desktop app
@@ -57,6 +59,8 @@ cask "iterm2"
 cask "notion"
 # Run macOS virtual machines locally and build images for use with Orka
 cask "orka-desktop"
+# Music streaming service
+cask "spotify"
 # System monitor for the menu bar
 cask "stats"
 # Mesh VPN based on WireGuard
