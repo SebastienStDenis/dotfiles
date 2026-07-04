@@ -1,18 +1,38 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+export LC_ALL=C
+
+command -v jq > /dev/null 2>&1 || exit 0
 
 input=$(cat)
 
-cwd=$(echo "$input" | jq -r '.workspace.current_dir')
-model=$(echo "$input" | jq -r '.model.display_name')
+IFS=$'\t' read -r cwd model used five week cost < <(
+  jq -r '[
+    .workspace.current_dir,
+    .model.display_name,
+    (.context_window.used_percentage // ""),
+    (.rate_limits.five_hour.used_percentage // ""),
+    (.rate_limits.seven_day.used_percentage // ""),
+    (.cost.total_cost_usd // "")
+  ] | @tsv' <<< "$input"
+)
+
 dir_name=$(basename "$cwd")
 
-DIM='\033[2m'
-RESET='\033[0m'
+DIM=$'\033[2m'
+RESET=$'\033[0m'
+OSC8=$'\033]8;;'
+ST=$'\a'
 
 git_branch=""
 dir_display="$dir_name"
-if git -C "$cwd" --no-optional-locks rev-parse --git-dir > /dev/null 2>&1; then
+repo_path=$(git -C "$cwd" --no-optional-locks rev-parse --show-toplevel 2>/dev/null)
+if [ -n "$repo_path" ]; then
+  encoded_repo=$(printf '%s' "$repo_path" | jq -sRr '@uri | gsub("%2F"; "/")')
+  dir_display="${OSC8}cursor://file${encoded_repo}/${ST}${dir_name}${OSC8}${ST}"
+
   branch=$(git -C "$cwd" --no-optional-locks branch --show-current 2>/dev/null)
+  [ -n "$branch" ] || branch=$(git -C "$cwd" --no-optional-locks rev-parse --short HEAD 2>/dev/null)
   if [ -n "$branch" ]; then
     status_porcelain=$(git -C "$cwd" --no-optional-locks status --porcelain 2>/dev/null)
     staged=false
@@ -32,12 +52,6 @@ if git -C "$cwd" --no-optional-locks rev-parse --git-dir > /dev/null 2>&1; then
     $unstaged && dots="${dots}${DIM}●${RESET}"
     $untracked && dots="${dots}○"
 
-    repo_path=$(git -C "$cwd" --no-optional-locks rev-parse --show-toplevel 2>/dev/null)
-    [ -z "$repo_path" ] && repo_path="$cwd"
-    encoded_repo=$(printf '%s' "$repo_path" | jq -sRr '@uri | gsub("%2F"; "/")')
-    link_url="cursor://file${encoded_repo}/"
-
-    dir_display="\033]8;;${link_url}\a${dir_name}\033]8;;\a"
     git_branch=" [${branch}${dots}]"
   fi
 fi
@@ -54,27 +68,19 @@ make_bar() {
   printf '%s' "$bar"
 }
 
-used=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
-five=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
-week=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
-cost=$(echo "$input" | jq -r '.cost.total_cost_usd // empty')
-
 parts=()
 
-if [ -n "$used" ]; then
-  used_int=$(printf '%.0f' "$used")
-  parts+=("ctx $(make_bar "$used_int") ${used_int}%")
-fi
+add_pct() {
+  local label=$1 pct=$2
+  [ -n "$pct" ] || return 0
+  local n
+  n=$(printf '%.0f' "$pct")
+  parts+=("$label $(make_bar "$n") ${n}%")
+}
 
-if [ -n "$five" ]; then
-  five_int=$(printf '%.0f' "$five")
-  parts+=("5h $(make_bar "$five_int") ${five_int}%")
-fi
-
-if [ -n "$week" ]; then
-  week_int=$(printf '%.0f' "$week")
-  parts+=("7d $(make_bar "$week_int") ${week_int}%")
-fi
+add_pct "ctx" "$used"
+add_pct "5h" "$five"
+add_pct "7d" "$week"
 
 if [ -n "$cost" ] && [ "$cost" != "0" ]; then
   parts+=("$(printf '$%.2f' "$cost")")
@@ -86,4 +92,4 @@ for p in "${parts[@]}"; do
   line="${line} ${DIM}|${RESET} ${p}"
 done
 
-printf "%b\n" "$line"
+printf '%s\n' "$line"
