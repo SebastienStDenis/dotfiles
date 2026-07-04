@@ -109,9 +109,10 @@ link-zsh: ## Link zsh dotfile
 link-brew: ## Link Brewfile
 	@$(call backup_and_link,"$(CURDIR)/brew/.Brewfile","$(HOME)/.Brewfile")
 
-link-claude: ## Link Claude CLAUDE.md, settings, hooks, agents, commands, and skills
+link-claude: ## Link Claude CLAUDE.md, settings, scripts, hooks, agents, commands, and skills
 	@$(call backup_and_link,"$(CURDIR)/claude/CLAUDE.md","$(HOME)/.claude/CLAUDE.md")
 	@$(call backup_and_link,"$(CURDIR)/claude/settings.json","$(HOME)/.claude/settings.json")
+	@$(call backup_and_link,"$(CURDIR)/claude/scripts","$(HOME)/.claude/scripts")
 	@$(call backup_and_link,"$(CURDIR)/claude/hooks","$(HOME)/.claude/hooks")
 	@$(call backup_and_link,"$(CURDIR)/claude/agents","$(HOME)/.claude/agents")
 	@$(call backup_and_link,"$(CURDIR)/claude/commands","$(HOME)/.claude/commands")
