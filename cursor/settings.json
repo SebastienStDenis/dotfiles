@@ -23,5 +23,6 @@
         "plaintext",
         "scminput"
     ],
-    "gitlens.currentLine.enabled": false
+    "gitlens.currentLine.enabled": false,
+    "security.promptForLocalFileProtocolHandling": false
 }

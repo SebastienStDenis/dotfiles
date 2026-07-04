@@ -10,13 +10,6 @@ alias dc='docker compose'
 alias ca='claude agents'
 alias brup='brew update && brew upgrade && brew cleanup'
 
-# Open Cursor at the current folder's git root (falls back to cwd)
-c() {
-  local root
-  root=$(git rev-parse --show-toplevel 2>/dev/null) || root=$PWD
-  cursor "$root"
-}
-
 export DISABLE_UNTRACKED_FILES_DIRTY=true
 export EDITOR='nvim'
 
