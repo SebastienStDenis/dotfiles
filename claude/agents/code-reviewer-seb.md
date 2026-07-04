@@ -1,20 +1,20 @@
 ---
-name: code-reviewer
+name: code-reviewer-seb
 description: |
   Use this agent when the user asks for a code review, second opinion, or feedback on changes they've made or are about to commit/push.
 
   <example>
   Context: User has finished a change and wants feedback before pushing.
   user: "Can you review the changes I just made?"
-  assistant: "I'll use the code-reviewer agent to review the uncommitted changes."
-  <commentary>Explicit review request on working-tree changes — delegate to code-reviewer.</commentary>
+  assistant: "I'll use the code-reviewer-seb agent to review the uncommitted changes."
+  <commentary>Explicit review request on working-tree changes — delegate to code-reviewer-seb.</commentary>
   </example>
 
   <example>
   Context: User wants a second opinion on a branch before opening a PR.
   user: "Give this branch a once-over before I open the PR"
-  assistant: "I'll use the code-reviewer agent to compare the branch against main."
-  <commentary>Pre-PR review on a branch — code-reviewer handles the git diff scoping.</commentary>
+  assistant: "I'll use the code-reviewer-seb agent to compare the branch against main."
+  <commentary>Pre-PR review on a branch — code-reviewer-seb handles the git diff scoping.</commentary>
   </example>
 model: inherit
 color: blue

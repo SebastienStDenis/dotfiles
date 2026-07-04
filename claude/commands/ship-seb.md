@@ -3,7 +3,7 @@ description: Rebase, validate, push, and create a PR with user checkpoints at ev
 allowed-tools: Bash, Read
 ---
 
-# ship
+# ship-seb
 
 Automate the full workflow of rebasing, validating, pushing, and opening a GitHub PR.
 
