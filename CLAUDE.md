@@ -2,7 +2,7 @@
 
 ## What this is
 
-Dotfiles for macOS and Linux, managed by a single Makefile. Each top-level directory holds one tool's config (`brew/`, `claude/`, `cursor/`, `git/`, `iterm2/`, `zsh/`), and `link-*` targets symlink those files into `$HOME`. macOS gets the full setup; Linux gets git, zsh, and Claude (`claude` and `jq` must already be on PATH). There is no build, lint, or test suite; verification is running the relevant make target (or `make -n <target>` to dry-run).
+Dotfiles for macOS and Linux, managed by a single Makefile. Each top-level directory holds one tool's config (`brew/`, `claude/`, `cursor/`, `git/`, `iterm2/`, `zsh/`), and `link-*` targets symlink those files into `$HOME`. macOS gets the full setup; Linux gets git, zsh, and Claude. There is no build, lint, or test suite; verification is running the relevant make target (or `make -n <target>` to dry-run).
 
 ## Commands
 

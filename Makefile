@@ -74,7 +74,7 @@ brew-prune: ## Remove packages not in Brewfile
 git-setup: link-git ## Configure git
 
 omz-setup: link-zsh ## Install Oh My Zsh and plugins
-	@$(call require,zsh git curl)
+	@$(call require,zsh)
 	@[ -d "$(HOME)/.oh-my-zsh" ] || \
 		RUNZSH=no KEEP_ZSHRC=yes sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 	@[ -d "$(HOME)/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ] || \
@@ -99,7 +99,7 @@ cursor-dump: ## Overwrite Cursor extensions.txt from current environment
 
 claude-setup: link-claude ## Link Claude config and install plugins from settings.json
 	@$(SHELLENV); \
-	$(call require,jq claude); \
+	$(call require,claude); \
 	jq -r '(.extraKnownMarketplaces // {})[].source.repo' "$(CURDIR)/claude/settings.json" | \
 	while read -r repo; do \
 		claude plugin marketplace add "$$repo" || true; \
