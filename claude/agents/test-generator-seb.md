@@ -1,20 +1,20 @@
 ---
-name: test-generator
+name: test-generator-seb
 description: |
   Use this agent when the user asks to write, generate, or add tests for code.
 
   <example>
   Context: User wants tests for a module they just wrote.
   user: "Add tests for the parser module"
-  assistant: "I'll use the test-generator agent to write tests for the parser."
-  <commentary>Explicit request to add tests — delegate to test-generator.</commentary>
+  assistant: "I'll use the test-generator-seb agent to write tests for the parser."
+  <commentary>Explicit request to add tests — delegate to test-generator-seb.</commentary>
   </example>
 
   <example>
   Context: User wants tests covering uncommitted work.
   user: "Write tests for what I just changed"
-  assistant: "I'll use the test-generator agent to cover the uncommitted changes."
-  <commentary>Scope is the working tree — test-generator will derive it from git status/diff.</commentary>
+  assistant: "I'll use the test-generator-seb agent to cover the uncommitted changes."
+  <commentary>Scope is the working tree — test-generator-seb will derive it from git status/diff.</commentary>
   </example>
 model: inherit
 color: green
