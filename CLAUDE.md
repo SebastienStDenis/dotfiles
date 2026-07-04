@@ -2,13 +2,13 @@
 
 ## What this is
 
-Dotfiles for macOS and Linux, managed by a single Makefile. Each top-level directory holds one tool's config (`brew/`, `claude/`, `cursor/`, `git/`, `iterm2/`, `zsh/`), and `link-*` targets symlink those files into `$HOME`. macOS gets the full setup; Linux gets git and zsh. There is no build, lint, or test suite; verification is running the relevant make target (or `make -n <target>` to dry-run).
+Dotfiles for macOS and Linux, managed by a single Makefile. Each top-level directory holds one tool's config (`brew/`, `claude/`, `cursor/`, `git/`, `iterm2/`, `zsh/`), and `link-*` targets symlink those files into `$HOME`. macOS gets the full setup; Linux gets git, zsh, and Claude (`claude` and `jq` must already be on PATH). There is no build, lint, or test suite; verification is running the relevant make target (or `make -n <target>` to dry-run).
 
 ## Commands
 
 - `make help` - list all targets with descriptions
 - `make bootstrap-mac` - full macOS setup: Homebrew, packages, git, Oh My Zsh, iTerm2, Cursor, Claude
-- `make bootstrap-linux` - Linux setup: git and Oh My Zsh
+- `make bootstrap-linux` - Linux setup: git, Oh My Zsh, and Claude
 - `make <tool>-setup` - set up one tool (e.g. `claude-setup`, `cursor-setup`)
 - `make link-<tool>` - just create the symlinks for one tool
 - `make dump` - regenerate `brew/.Brewfile` and `cursor/extensions.txt` from the current machine

@@ -5,7 +5,8 @@ BREW   := /opt/homebrew/bin/brew
 BUNDLE := $(BREW) bundle --global
 
 # Put brew-installed tools (cursor, claude, etc.) on PATH inside a recipe.
-SHELLENV := eval "$$($(BREW) shellenv sh)"
+# No-op when Homebrew is absent (Linux).
+SHELLENV := if [ -x "$(BREW)" ]; then eval "$$($(BREW) shellenv sh)"; fi
 
 .PHONY: help \
         bootstrap-mac bootstrap-linux dump \
@@ -31,6 +32,13 @@ define backup_and_link
 	echo "Linked $$dest to $$src"
 endef
 
+# Fail fast when a required tool is missing from PATH.
+define require
+	for tool in $(1); do \
+		command -v "$$tool" >/dev/null 2>&1 || { echo "$@: $$tool is required but not on PATH" >&2; exit 1; }; \
+	done
+endef
+
 # ── Help ───────────────────────────────────────────────────────────────
 help: ## Show this help
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## ' $(MAKEFILE_LIST) | \
@@ -39,7 +47,7 @@ help: ## Show this help
 # ── Aggregates ─────────────────────────────────────────────────────────
 bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup claude-setup ## Bootstrap the development environment on mac (backs up existing dotfiles)
 
-bootstrap-linux: git-setup omz-setup ## Bootstrap git and zsh on linux (backs up existing dotfiles)
+bootstrap-linux: git-setup omz-setup claude-setup ## Bootstrap git, zsh, and Claude on linux (backs up existing dotfiles)
 
 dump: brew-dump cursor-dump ## Run all dumps (brew-dump, cursor-dump)
 
@@ -66,6 +74,7 @@ brew-prune: ## Remove packages not in Brewfile
 git-setup: link-git ## Configure git
 
 omz-setup: link-zsh ## Install Oh My Zsh and plugins
+	@$(call require,zsh git curl)
 	@[ -d "$(HOME)/.oh-my-zsh" ] || \
 		RUNZSH=no KEEP_ZSHRC=yes sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 	@[ -d "$(HOME)/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ] || \
@@ -90,6 +99,7 @@ cursor-dump: ## Overwrite Cursor extensions.txt from current environment
 
 claude-setup: link-claude ## Link Claude config and install plugins from settings.json
 	@$(SHELLENV); \
+	$(call require,jq claude); \
 	jq -r '(.extraKnownMarketplaces // {})[].source.repo' "$(CURDIR)/claude/settings.json" | \
 	while read -r repo; do \
 		claude plugin marketplace add "$$repo" || true; \
