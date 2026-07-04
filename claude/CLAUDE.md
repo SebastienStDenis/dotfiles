@@ -22,6 +22,8 @@
 - Avoid comments unless completely necessary. When one is truly needed, it explains *why*, not *what*.
 - Prefer explicit over clever. Prefer boring over impressive.
 - Names should describe intent, not type or implementation.
+- Never hand-edit generated files (lockfiles, codegen output, snapshots). Edit the source and rerun the generator.
+- If output is supposed to come from a command, run the command. Don't recreate what it would produce by hand.
 
 ### No conversational residue
 - Write every change as if the final version was the plan from the start. The repo records where we landed, not how we got there.
