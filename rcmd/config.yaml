@@ -3,12 +3,10 @@
 # Full settings reference: run `rcmd config help`
 stages: []
 appKeyAssignments:
-  l: {app: /Applications/Claude.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
-  c: {app: /Applications/Google Chrome.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
-  u: {app: /Applications/Cursor.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
-  i: {app: /Applications/iTerm.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
-  n: {app: /Applications/Notion.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
-  b: {app: /Applications/Bitwarden.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
+  l: {app: /Applications/Claude.app, launchIfNotRunning: false, whenAlreadyFocusedAction: FollowGlobal}
+  c: {app: /Applications/Google Chrome.app, launchIfNotRunning: false, whenAlreadyFocusedAction: FollowGlobal}
+  u: {app: /Applications/Cursor.app, launchIfNotRunning: false, whenAlreadyFocusedAction: FollowGlobal}
+  a: {app: /System/Applications/Calendar.app, launchIfNotRunning: false, whenAlreadyFocusedAction: FollowGlobal}
 windowKeyAssignments: {}
 ignoredApps: []
 appsWhereRcmdIsPaused: []
@@ -24,10 +22,10 @@ triggers:
   alwaysHideOthers: false
 appSwitcher:
   showAppSwitcher: true
-  appSwitcherOSDDelay: 0
+  appSwitcherOSDDelay: 350
   appSwitcherFeatures: [runningApps, launchableApps, bottomActions]
   switcherScreenPlacement: {position: center, offsetX: 0, offsetY: 150}
-  osdSize: {width: 600, height: 900}
+  osdSize: {width: 600, height: 1000}
   actionKeys: {hideKey: minus, actionKey: equal, exposeKey: section, enableHideAndActionKeys: true}
   hideOnlyFocusedAppOnMinus: false
   appSort: name
@@ -41,22 +39,21 @@ windowSwitcher:
     density: comfortable
     backgroundStyle:
       glass: {opacity: 0e+0}
-    accentColor: '#3F8FCFFF'
+    accentColor: adaptive
     foregroundColor: adaptive
     keycapColor: adaptive
-    keycapStyle: badge
-    searchBarStyle: pill
+    keycapStyle: bordered
+    searchBarStyle: glassy
     cornerRadius: 2.2e+1
     appIconSize: 3e+1
     iconStyle: native
     fontStyle: system
     focusStyle: pill
-    rowSeparationStyle: floating
-    glassTint: '#BFE0FF33'
+    rowSeparationStyle: none
   windowSwitcherFeatures: [lastWindow, windows, windowActions, bottomActions]
   windowSwitcherDimFocused: false
   windowSwitcherPlacement: {mirrorAppSwitcher: false, position: center, offsetX: 0, offsetY: 150}
-  osdSize: {width: 600, height: 900}
+  osdSize: {width: 600, height: 1000}
   actionKeys: {windowMinimizeKey: minus, windowAssignKey: equal, enableWindowMinimizeAndAssignKeys: true}
   minimizeOnlyFocusedWindowOnMinus: true
 stageSwitcher:
@@ -108,5 +105,5 @@ general:
   - 3d
   showMenubarAppsInSearch: false
   enableStickySpaceSearch: true
-  hidePerAppSettings: false
+  hidePerAppSettings: true
 overrideUserDefaults: false
