@@ -28,7 +28,7 @@ dir_display="$dir_name"
 repo_path=$(git -C "$cwd" --no-optional-locks rev-parse --show-toplevel 2>/dev/null)
 if [ -n "$repo_path" ]; then
   encoded_repo=$(printf '%s' "$repo_path" | jq -sRr '@uri | gsub("%2F"; "/")')
-  dir_display="${OSC8}cursor://file${encoded_repo}/${ST}${dir_name}${OSC8}${ST}"
+  dir_display="${OSC8}cursor://file${encoded_repo}/?windowId=_blank${ST}${dir_name}${OSC8}${ST}"
 
   branch=$(git -C "$cwd" --no-optional-locks branch --show-current 2>/dev/null)
   [ -n "$branch" ] || branch=$(git -C "$cwd" --no-optional-locks rev-parse --short HEAD 2>/dev/null)
