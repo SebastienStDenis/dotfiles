@@ -61,6 +61,8 @@ cask "linearmouse"
 cask "notion"
 # Run macOS virtual machines locally and build images for use with Orka
 cask "orka-desktop"
+# App switcher driven by the Right Command key
+cask "rcmd"
 # Music streaming service
 cask "spotify"
 # System monitor for the menu bar
