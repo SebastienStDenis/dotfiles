@@ -55,6 +55,8 @@ cask "font-ubuntu-sans-nerd-font"
 cask "google-chrome"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
+# Keyboard customiser
+cask "karabiner-elements"
 # Customise mouse behavior
 cask "linearmouse"
 # App to write, plan, collaborate, and get organised
