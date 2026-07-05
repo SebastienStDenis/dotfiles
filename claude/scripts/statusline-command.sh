@@ -16,16 +16,15 @@ IFS=$'\t' read -r cwd model used five cost < <(
   ] | @tsv' <<< "$input"
 )
 
-truncate_name() {
-  local name=$1 max=18
-  if (( ${#name} > max )); then
-    printf '..%s' "${name: -$((max - 2))}"
-  else
-    printf '%s' "$name"
-  fi
+truncate_middle() {
+  local s=$1 max=$2
+  (( ${#s} <= max )) && { printf '%s' "$s"; return; }
+  local head=$(( max / 2 ))
+  local tail=$(( max - 1 - head ))
+  printf '%s…%s' "${s:0:head}" "${s: -tail}"
 }
 
-dir_name=$(truncate_name "$(basename "$cwd")")
+dir_name=$(truncate_middle "$(basename "$cwd")" 20)
 
 DIM=$'\033[2m'
 RESET=$'\033[0m'
@@ -41,7 +40,7 @@ if [ -n "$repo_path" ]; then
 
   branch=$(git -C "$cwd" --no-optional-locks branch --show-current 2>/dev/null)
   [ -n "$branch" ] || branch=$(git -C "$cwd" --no-optional-locks rev-parse --short HEAD 2>/dev/null)
-  branch=$(truncate_name "$branch")
+  branch=$(truncate_middle "$branch" 28)
   if [ -n "$branch" ]; then
     status_porcelain=$(git -C "$cwd" --no-optional-locks status --porcelain 2>/dev/null)
     staged=false
