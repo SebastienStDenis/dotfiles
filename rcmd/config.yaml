@@ -1,0 +1,112 @@
+# rcmd configuration file
+# Edit this file to customise rcmd's behaviour. Changes are picked up within a few seconds.
+# Full settings reference: run `rcmd config help`
+stages: []
+appKeyAssignments:
+  l: {app: /Applications/Claude.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
+  c: {app: /Applications/Google Chrome.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
+  u: {app: /Applications/Cursor.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
+  i: {app: /Applications/iTerm.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
+  n: {app: /Applications/Notion.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
+  b: {app: /Applications/Bitwarden.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
+windowKeyAssignments: {}
+ignoredApps: []
+appsWhereRcmdIsPaused: []
+ignoredKeys: []
+searchPins: {}
+triggers:
+  triggerKeys: [rcmd]
+  windowTriggerKeys: [ralt]
+  assignKeyTriggerKeys: [rcmd, ralt]
+  hideOnFocusTriggerKeys: [rcmd, rshift]
+  enableAssignHotkey: true
+  enableHideOthersHotkey: false
+  alwaysHideOthers: false
+appSwitcher:
+  showAppSwitcher: true
+  appSwitcherOSDDelay: 0
+  appSwitcherFeatures: [runningApps, launchableApps, bottomActions]
+  switcherScreenPlacement: {position: center, offsetX: 0, offsetY: 150}
+  osdSize: {width: 600, height: 900}
+  actionKeys: {hideKey: minus, actionKey: equal, exposeKey: section, enableHideAndActionKeys: true}
+  hideOnlyFocusedAppOnMinus: false
+  appSort: name
+  appSortReverse: false
+windowSwitcher:
+  showWindowSwitcher: true
+  windowSwitcherOSDDelay: 0
+  windowSwitcherAppearance: comfortable
+  windowKeyMode: mixed
+  osdLook:
+    density: comfortable
+    backgroundStyle:
+      glass: {opacity: 0e+0}
+    accentColor: '#3F8FCFFF'
+    foregroundColor: adaptive
+    keycapColor: adaptive
+    keycapStyle: badge
+    searchBarStyle: pill
+    cornerRadius: 2.2e+1
+    appIconSize: 3e+1
+    iconStyle: native
+    fontStyle: system
+    focusStyle: pill
+    rowSeparationStyle: floating
+    glassTint: '#BFE0FF33'
+  windowSwitcherFeatures: [lastWindow, windows, windowActions, bottomActions]
+  windowSwitcherDimFocused: false
+  windowSwitcherPlacement: {mirrorAppSwitcher: false, position: center, offsetX: 0, offsetY: 150}
+  osdSize: {width: 600, height: 900}
+  actionKeys: {windowMinimizeKey: minus, windowAssignKey: equal, enableWindowMinimizeAndAssignKeys: true}
+  minimizeOnlyFocusedWindowOnMinus: true
+stageSwitcher:
+  stageTriggerKeys: [capsLock]
+  actionKeys: {stageAssignKey: equal, stageCloseKey: minus, stageRepositionKey: section, stageCloseAction: close}
+  stageReopenClosedItems: true
+  stageSwitcherOSDDelay: 80
+  showStageSwitcher: true
+  stageSwitcherPlacement: {mirrorAppSwitcher: false, position: bottomRight, offsetX: 0, offsetY: 0}
+tabCycle:
+  enableTabCycle: true
+  tabCycleScope: auto
+  tabCycleSearchScope: allWindows
+  tabCycleInclude: [minimized, hidden]
+  tabCycleFocusOnKeyUp: true
+  hijackCommandTab: true
+  stickyAppSwitcher: false
+  stickyAppSwitcherScope: rcmdOnly
+  windowCycleKey: grave
+  enableWindowCycleKey: true
+  hijackWindowCycleHotkey: true
+spaces: {spaceMode: single, createMissingSpaces: true, osdOnActiveSpaceOnly: false, enableInstantSpaceSwitching: true}
+general:
+  whenAlreadyFocusedAction: CycleWindows
+  focusBehaviour: mainWindow
+  focusBehaviourSingle: mainWindow
+  focusBehaviourMulti: sameSpaceWindow
+  focusOnKeyUp: false
+  activationMode: onPress
+  fuzzySearch: true
+  searchMatchMode: anchored
+  searchOptionalPrefixes:
+  - google
+  - microsoft
+  - adobe
+  - apple
+  - amazon
+  - affinity
+  - jetbrains
+  - nvidia
+  - parallels
+  - elgato
+  - logitech
+  - synology
+  - wondershare
+  - the
+  - 4k
+  - 8k
+  - 3d
+  showMenubarAppsInSearch: false
+  enableStickySpaceSearch: true
+  hidePerAppSettings: false
+overrideUserDefaults: false
