@@ -11,8 +11,8 @@ SHELLENV := if [ -x "$(BREW)" ]; then eval "$$($(BREW) shellenv sh)"; fi
 .PHONY: help \
         bootstrap-mac bootstrap-linux dump \
         brew-setup brew-install brew-dump brew-prune \
-        git-setup omz-setup iterm2-setup cursor-setup cursor-dump claude-setup rcmd-setup \
-        link-git link-zsh link-brew link-claude link-cursor link-rcmd
+        git-setup omz-setup iterm2-setup cursor-setup cursor-dump claude-setup rcmd-setup linearmouse-setup \
+        link-git link-zsh link-brew link-claude link-cursor link-rcmd link-linearmouse
 
 .DEFAULT_GOAL := help
 
@@ -45,7 +45,7 @@ help: ## Show this help
 		awk 'BEGIN{FS=":.*?## "}{printf "  %-15s %s\n", $$1, $$2}'
 
 # ── Aggregates ─────────────────────────────────────────────────────────
-bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup claude-setup rcmd-setup ## Bootstrap the development environment on mac (backs up existing dotfiles)
+bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup claude-setup rcmd-setup linearmouse-setup ## Bootstrap the development environment on mac (backs up existing dotfiles)
 
 bootstrap-linux: git-setup omz-setup claude-setup ## Bootstrap git, zsh, and Claude on linux (backs up existing dotfiles)
 
@@ -99,6 +99,8 @@ cursor-dump: ## Overwrite Cursor extensions.txt from current environment
 
 rcmd-setup: link-rcmd ## Configure rcmd
 
+linearmouse-setup: link-linearmouse ## Configure LinearMouse
+
 claude-setup: link-claude ## Link Claude config and install plugins from settings.json
 	@$(SHELLENV); \
 	$(call require,claude); \
@@ -135,3 +137,6 @@ link-cursor: ## Link Cursor settings.json
 
 link-rcmd: ## Link rcmd config.yaml
 	@$(call backup_and_link,"$(CURDIR)/rcmd/config.yaml","$(HOME)/.config/rcmd/config.yaml")
+
+link-linearmouse: ## Link LinearMouse linearmouse.json
+	@$(call backup_and_link,"$(CURDIR)/linearmouse/linearmouse.json","$(HOME)/.config/linearmouse/linearmouse.json")
