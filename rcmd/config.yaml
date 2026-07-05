@@ -106,4 +106,4 @@ general:
   showMenubarAppsInSearch: false
   enableStickySpaceSearch: true
   hidePerAppSettings: true
-overrideUserDefaults: false
+overrideUserDefaults: true
