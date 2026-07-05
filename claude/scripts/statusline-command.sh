@@ -6,13 +6,12 @@ command -v jq > /dev/null 2>&1 || exit 0
 
 input=$(cat)
 
-IFS=$'\t' read -r cwd model used five week cost < <(
+IFS=$'\t' read -r cwd model used five cost < <(
   jq -r '[
     .workspace.current_dir,
     .model.display_name,
     (.context_window.used_percentage // ""),
     (.rate_limits.five_hour.used_percentage // ""),
-    (.rate_limits.seven_day.used_percentage // ""),
     (.cost.total_cost_usd // "")
   ] | @tsv' <<< "$input"
 )
@@ -80,7 +79,6 @@ add_pct() {
 
 add_pct "ctx" "$used"
 add_pct "5h" "$five"
-add_pct "7d" "$week"
 
 if [ -n "$cost" ] && [ "$cost" != "0" ]; then
   parts+=("$(printf '$%.2f' "$cost")")
