@@ -68,7 +68,7 @@ tabCycle:
   tabCycleScope: auto
   tabCycleSearchScope: allWindows
   tabCycleInclude: [minimized, hidden]
-  tabCycleFocusOnKeyUp: true
+  tabCycleFocusOnKeyUp: false
   hijackCommandTab: true
   stickyAppSwitcher: false
   stickyAppSwitcherScope: rcmdOnly
