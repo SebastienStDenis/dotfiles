@@ -24,7 +24,7 @@ appSwitcher:
   showAppSwitcher: true
   appSwitcherOSDDelay: 350
   appSwitcherFeatures: [runningApps, launchableApps, bottomActions]
-  switcherScreenPlacement: {position: center, offsetX: 0, offsetY: 150}
+  switcherScreenPlacement: {position: center, offsetX: 0, offsetY: 0}
   osdSize: {width: 600, height: 1000}
   actionKeys: {hideKey: minus, actionKey: equal, exposeKey: section, enableHideAndActionKeys: true}
   hideOnlyFocusedAppOnMinus: false
@@ -52,7 +52,7 @@ windowSwitcher:
     rowSeparationStyle: none
   windowSwitcherFeatures: [lastWindow, windows, windowActions, bottomActions]
   windowSwitcherDimFocused: false
-  windowSwitcherPlacement: {mirrorAppSwitcher: false, position: center, offsetX: 0, offsetY: 150}
+  windowSwitcherPlacement: {mirrorAppSwitcher: false, position: center, offsetX: 0, offsetY: 0}
   osdSize: {width: 600, height: 1000}
   actionKeys: {windowMinimizeKey: minus, windowAssignKey: equal, enableWindowMinimizeAndAssignKeys: true}
   minimizeOnlyFocusedWindowOnMinus: true
