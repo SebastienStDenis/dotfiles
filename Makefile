@@ -1,11 +1,16 @@
 # ── Config ─────────────────────────────────────────────────────────────
 CURSOR_USER := $(HOME)/Library/Application Support/Cursor/User
 
-BREW   := /opt/homebrew/bin/brew
+UNAME := $(shell uname -s)
+ifeq ($(UNAME),Darwin)
+BREW := /opt/homebrew/bin/brew
+else
+BREW := /home/linuxbrew/.linuxbrew/bin/brew
+endif
 BUNDLE := $(BREW) bundle --global
 
 # Put brew-installed tools (cursor, claude, etc.) on PATH inside a recipe.
-# No-op when Homebrew is absent (Linux).
+# No-op when Homebrew is absent.
 SHELLENV := if [ -x "$(BREW)" ]; then eval "$$($(BREW) shellenv sh)"; fi
 
 .PHONY: help \
@@ -39,6 +44,11 @@ define require
 	done
 endef
 
+# Refuse to run on non-macOS hosts.
+define mac_only
+	[ "$(UNAME)" = Darwin ] || { echo "$@: macOS-only target" >&2; exit 1; }
+endef
+
 # ── Help ───────────────────────────────────────────────────────────────
 help: ## Show this help
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## ' $(MAKEFILE_LIST) | \
@@ -47,7 +57,7 @@ help: ## Show this help
 # ── Aggregates ─────────────────────────────────────────────────────────
 bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup claude-setup rcmd-setup linearmouse-setup ## Bootstrap the development environment on mac (backs up existing dotfiles)
 
-bootstrap-linux: git-setup omz-setup claude-setup ## Bootstrap git, zsh, and Claude on linux (backs up existing dotfiles)
+bootstrap-linux: brew-setup brew-install git-setup omz-setup claude-setup ## Bootstrap Homebrew, git, zsh, and Claude on linux (backs up existing dotfiles)
 
 dump: brew-dump cursor-dump ## Run all dumps (brew-dump, cursor-dump)
 
@@ -64,7 +74,8 @@ brew-install: ## Install packages from Brewfile (retries transient failures)
 	done; \
 	$(BUNDLE)
 
-brew-dump: ## Overwrite Brewfile from current environment
+brew-dump: ## Overwrite Brewfile from current environment (macOS only: a linux dump would drop the casks)
+	@$(call mac_only)
 	$(BUNDLE) dump --force --no-vscode
 
 brew-prune: ## Remove packages not in Brewfile
@@ -83,18 +94,21 @@ omz-setup: link-zsh ## Install Oh My Zsh and plugins
 		git clone https://github.com/zsh-users/zsh-syntax-highlighting "$(HOME)/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 
 iterm2-setup: ## Configure iTerm2
+	@$(call mac_only)
 	/usr/bin/defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$(CURDIR)/iterm2"
 	/usr/bin/defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
 	killall cfprefsd || true
 
 cursor-setup: link-cursor ## Link Cursor settings and install extensions
+	@$(call mac_only)
 	@$(SHELLENV); \
 	while read -r ext; do \
 		[ -z "$$ext" ] && continue; \
 		cursor --install-extension "$$ext"; \
 	done < "$(CURDIR)/cursor/extensions.txt"
 
-cursor-dump: ## Overwrite Cursor extensions.txt from current environment
+cursor-dump: ## Overwrite Cursor extensions.txt from current environment (macOS only)
+	@$(call mac_only)
 	$(SHELLENV) && cursor --list-extensions > "$(CURDIR)/cursor/extensions.txt"
 
 rcmd-setup: link-rcmd ## Configure rcmd
@@ -133,6 +147,7 @@ link-claude: ## Link Claude CLAUDE.md, settings, scripts, hooks, agents, command
 	@$(call backup_and_link,"$(CURDIR)/claude/skills","$(HOME)/.claude/skills")
 
 link-cursor: ## Link Cursor settings.json
+	@$(call mac_only)
 	@$(call backup_and_link,"$(CURDIR)/cursor/settings.json","$(CURSOR_USER)/settings.json")
 
 link-rcmd: ## Link rcmd config.yaml
