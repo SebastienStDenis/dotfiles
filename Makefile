@@ -151,7 +151,9 @@ link-cursor: ## Link Cursor settings.json
 	@$(call backup_and_link,"$(CURDIR)/cursor/settings.json","$(CURSOR_USER)/settings.json")
 
 link-rcmd: ## Link rcmd config.yaml
+	@$(call mac_only)
 	@$(call backup_and_link,"$(CURDIR)/rcmd/config.yaml","$(HOME)/.config/rcmd/config.yaml")
 
 link-linearmouse: ## Link LinearMouse linearmouse.json
+	@$(call mac_only)
 	@$(call backup_and_link,"$(CURDIR)/linearmouse/linearmouse.json","$(HOME)/.config/linearmouse/linearmouse.json")
