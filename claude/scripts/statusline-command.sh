@@ -13,7 +13,7 @@ IFS=$'\t' read -r cwd model used five cost duration < <(
     (.context_window.used_percentage // ""),
     (.rate_limits.five_hour.used_percentage // ""),
     (.cost.total_cost_usd // ""),
-    (.cost.total_duration_ms // "")
+    (.cost.total_api_duration_ms // "")
   ] | @tsv' <<< "$input"
 )
 
