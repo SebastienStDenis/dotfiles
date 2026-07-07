@@ -6,13 +6,14 @@ command -v jq > /dev/null 2>&1 || exit 0
 
 input=$(cat)
 
-IFS=$'\t' read -r cwd model used five cost < <(
+IFS=$'\t' read -r cwd model used five cost duration < <(
   jq -r '[
     .workspace.current_dir,
     .model.display_name,
     (.context_window.used_percentage // ""),
     (.rate_limits.five_hour.used_percentage // ""),
-    (.cost.total_cost_usd // "")
+    (.cost.total_cost_usd // ""),
+    (.cost.total_duration_ms // "")
   ] | @tsv' <<< "$input"
 )
 
@@ -91,6 +92,17 @@ add_pct "5h" "$five"
 
 if [ -n "$cost" ] && [ "$cost" != "0" ]; then
   parts+=("$(printf '$%.2f' "$cost")")
+fi
+
+if [ -n "$duration" ]; then
+  total_s=$(( ${duration%.*} / 1000 ))
+  if (( total_s >= 3600 )); then
+    parts+=("$(( total_s / 3600 ))h $(( total_s % 3600 / 60 ))m")
+  elif (( total_s >= 60 )); then
+    parts+=("$(( total_s / 60 ))m")
+  else
+    parts+=("${total_s}s")
+  fi
 fi
 
 line="${dir_display}${git_branch} ${DIM}|${RESET} ${model}"
