@@ -7,6 +7,8 @@ appKeyAssignments:
   c: {app: /Applications/Google Chrome.app, launchIfNotRunning: false, whenAlreadyFocusedAction: FollowGlobal}
   u: {app: /Applications/Cursor.app, launchIfNotRunning: false, whenAlreadyFocusedAction: FollowGlobal}
   a: {app: /System/Applications/Calendar.app, launchIfNotRunning: false, whenAlreadyFocusedAction: FollowGlobal}
+  m: {app: /System/Applications/Mail.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
+  e: {app: /System/Applications/Messages.app, launchIfNotRunning: true, whenAlreadyFocusedAction: CycleWindows}
 windowKeyAssignments: {}
 ignoredApps: []
 appsWhereRcmdIsPaused: []
@@ -22,8 +24,8 @@ triggers:
   alwaysHideOthers: false
 appSwitcher:
   showAppSwitcher: true
-  appSwitcherOSDDelay: 350
-  appSwitcherFeatures: [runningApps, launchableApps, bottomActions]
+  appSwitcherOSDDelay: 150
+  appSwitcherFeatures: [runningApps, bottomActions]
   switcherScreenPlacement: {position: center, offsetX: 0, offsetY: 0}
   osdSize: {width: 600, height: 1000}
   actionKeys: {hideKey: minus, actionKey: equal, exposeKey: section, enableHideAndActionKeys: true}
@@ -32,7 +34,7 @@ appSwitcher:
   appSortReverse: false
 windowSwitcher:
   showWindowSwitcher: true
-  windowSwitcherOSDDelay: 0
+  windowSwitcherOSDDelay: 350
   windowSwitcherAppearance: comfortable
   windowKeyMode: mixed
   osdLook:
@@ -68,7 +70,7 @@ tabCycle:
   tabCycleScope: auto
   tabCycleSearchScope: allWindows
   tabCycleInclude: [minimized, hidden]
-  tabCycleFocusOnKeyUp: false
+  tabCycleFocusOnKeyUp: true
   hijackCommandTab: true
   stickyAppSwitcher: false
   stickyAppSwitcherScope: rcmdOnly
@@ -103,7 +105,7 @@ general:
   - 4k
   - 8k
   - 3d
-  showMenubarAppsInSearch: false
+  showMenubarAppsInSearch: true
   enableStickySpaceSearch: true
   hidePerAppSettings: true
 overrideUserDefaults: true
