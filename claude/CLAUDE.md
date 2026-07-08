@@ -39,3 +39,4 @@
 - Branches: `<type>/<short-kebab-description>`, e.g. `feat/user-auth`, `fix/login-redirect`. Types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `build`, `ci`, `style`, `perf`, `revert`.
 - PR titles: Conventional Commits - `<type>(<scope>): <imperative summary>` or `<type>: <imperative summary>`, e.g. `feat(auth): add login`. Scope is optional. Keep the summary under ~50 chars, lowercase, no trailing period.
 - Reference the issue in the PR body (`Closes #123`), not the branch name.
+- Before pushing to an existing PR, check whether it's already been closed. If so, open a new one instead of reopening or pushing to the closed PR.
