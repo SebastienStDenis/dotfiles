@@ -1,3 +1,4 @@
+tap "supabase/tap"
 # Cryptography and SSL/TLS Toolkit
 brew "openssl@3"
 # Open-source, cross-platform JavaScript runtime environment
@@ -38,6 +39,8 @@ brew "tree"
 brew "uv"
 # UNIX shell (command interpreter)
 brew "zsh"
+# Supabase CLI
+brew "supabase/tap/supabase", trusted: true
 # Application uninstaller
 cask "appcleaner"
 # Desktop password and login vault
@@ -63,6 +66,8 @@ cask "notion"
 cask "orka-desktop"
 # App switcher driven by the Right Command key
 cask "rcmd"
+# Team communication and collaboration software
+cask "slack"
 # Music streaming service
 cask "spotify"
 # System monitor for the menu bar
