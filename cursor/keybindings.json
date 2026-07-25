@@ -1,0 +1,47 @@
+// Place your key bindings in this file to override the defaults
+[
+  { "key": "shift+cmd+escape", "command": "-claude-vscode.editor.open" },
+
+  {
+    "key": "cmd+l",
+    "command": "runCommands",
+    "args": { "commands": ["claude-vscode.insertAtMention", "claude-vscode.focus"] },
+    "when": "editorTextFocus && editorHasSelection && !config.claudeCode.useTerminal"
+  },
+  {
+    "key": "cmd+l",
+    "command": "claude-vscode.focus",
+    "when": "editorTextFocus && !editorHasSelection && !config.claudeCode.useTerminal"
+  },
+  {
+    "key": "cmd+l",
+    "command": "claude-vscode.focus",
+    "when": "!editorTextFocus && !config.claudeCode.useTerminal"
+  },
+
+  {
+    "key": "shift+cmd+l",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        "claude-vscode.newConversation",
+        "workbench.action.focusActiveEditorGroup",
+        "claude-vscode.insertAtMention",
+        "claude-vscode.focus"
+      ]
+    },
+    "when": "editorTextFocus && editorHasSelection && !config.claudeCode.useTerminal"
+  },
+  {
+    "key": "shift+cmd+l",
+    "command": "runCommands",
+    "args": { "commands": ["claude-vscode.newConversation", "claude-vscode.focus"] },
+    "when": "editorTextFocus && !editorHasSelection && !config.claudeCode.useTerminal"
+  },
+  {
+    "key": "shift+cmd+l",
+    "command": "runCommands",
+    "args": { "commands": ["claude-vscode.newConversation", "claude-vscode.focus"] },
+    "when": "!editorTextFocus && !config.claudeCode.useTerminal"
+  }
+]

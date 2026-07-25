@@ -87,7 +87,7 @@ iterm2-setup: ## Configure iTerm2
 	/usr/bin/defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
 	killall cfprefsd || true
 
-cursor-setup: link-cursor ## Link Cursor settings and install extensions
+cursor-setup: link-cursor ## Link Cursor config and install extensions
 	@$(SHELLENV); \
 	while read -r ext; do \
 		[ -z "$$ext" ] && continue; \
@@ -132,8 +132,9 @@ link-claude: ## Link Claude CLAUDE.md, settings, scripts, hooks, agents, command
 	@$(call backup_and_link,"$(CURDIR)/claude/commands","$(HOME)/.claude/commands")
 	@$(call backup_and_link,"$(CURDIR)/claude/skills","$(HOME)/.claude/skills")
 
-link-cursor: ## Link Cursor settings.json
+link-cursor: ## Link Cursor settings.json and keybindings.json
 	@$(call backup_and_link,"$(CURDIR)/cursor/settings.json","$(CURSOR_USER)/settings.json")
+	@$(call backup_and_link,"$(CURDIR)/cursor/keybindings.json","$(CURSOR_USER)/keybindings.json")
 
 link-rcmd: ## Link rcmd config.yaml
 	@$(call backup_and_link,"$(CURDIR)/rcmd/config.yaml","$(HOME)/.config/rcmd/config.yaml")

@@ -43,6 +43,7 @@
     st = status
     rb = rebase
     pl = pull
+    pr = prune
     ps = push
     wt = worktree
     tr = trim
