@@ -31,5 +31,8 @@
   },
   "theme": "light",
   "agentPushNotifEnabled": true,
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "env": {
+    "CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE": "1"
+  }
 }
