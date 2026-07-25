@@ -30,8 +30,6 @@
     "mode": "hold"
   },
   "theme": "light",
-  "remoteControlAtStartup": true,
-  "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "voiceEnabled": true
 }
