@@ -3,7 +3,10 @@
 
 [user]
     name = Sébastien St-Denis
-    email = sebastien.stdenis@icloud.com
+    # The email is per-machine and lives in ~/.gitconfig.local. useConfigOnly
+    # makes a missing one a hard error at commit time rather than a guess from
+    # the hostname, so work commits can't silently land under a personal address.
+    useConfigOnly = true
 
 [core]
     editor = nvim
@@ -47,4 +50,9 @@
     ps = push
     wt = worktree
     tr = trim
+
+# Per-machine email and overrides. Not tracked here; git ignores it when absent.
+# Create with: make git-identity EMAIL="you@example.com"
+[include]
+    path = ~/.gitconfig.local
 
