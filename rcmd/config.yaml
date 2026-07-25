@@ -4,11 +4,11 @@
 stages: []
 appKeyAssignments:
   l: {app: /Applications/Claude.app, launchIfNotRunning: false, whenAlreadyFocusedAction: FollowGlobal}
+  c: {app: /Applications/Google Chrome.app, launchIfNotRunning: false, whenAlreadyFocusedAction: FollowGlobal}
   u: {app: /Applications/Cursor.app, launchIfNotRunning: false, whenAlreadyFocusedAction: FollowGlobal}
   a: {app: /System/Applications/Calendar.app, launchIfNotRunning: false, whenAlreadyFocusedAction: FollowGlobal}
   m: {app: /System/Applications/Mail.app, launchIfNotRunning: true, whenAlreadyFocusedAction: FollowGlobal}
   e: {app: /System/Applications/Messages.app, launchIfNotRunning: true, whenAlreadyFocusedAction: CycleWindows}
-  c: {app: /Applications/Google Chrome.app, launchIfNotRunning: false, whenAlreadyFocusedAction: FollowGlobal}
 windowKeyAssignments: {}
 ignoredApps: []
 appsWhereRcmdIsPaused: []
@@ -24,11 +24,11 @@ triggers:
   alwaysHideOthers: false
 appSwitcher:
   showAppSwitcher: true
-  appSwitcherOSDDelay: 350
-  appSwitcherFeatures: [runningApps, launchableApps, bottomActions]
+  appSwitcherOSDDelay: 150
+  appSwitcherFeatures: [runningApps, bottomActions]
   switcherScreenPlacement: {position: center, offsetX: 0, offsetY: 0}
   osdSize: {width: 600, height: 1000}
-  actionKeys: {hideKey: minus, actionKey: equal, exposeKey: period, enableHideAndActionKeys: true}
+  actionKeys: {hideKey: minus, actionKey: equal, exposeKey: section, enableHideAndActionKeys: true}
   hideOnlyFocusedAppOnMinus: false
   appSort: name
   appSortReverse: false
@@ -85,7 +85,6 @@ general:
   focusBehaviourMulti: sameSpaceWindow
   focusOnKeyUp: false
   activationMode: onPress
-  fuzzySearch: true
   searchMatchMode: anchored
   searchOptionalPrefixes:
   - google
@@ -105,27 +104,7 @@ general:
   - 4k
   - 8k
   - 3d
-  showMenubarAppsInSearch: false
+  showMenubarAppsInSearch: true
   enableStickySpaceSearch: true
   hidePerAppSettings: true
-windowPatternGroups:
-- id: code-editors
-  name: Code editor project
-  bundleIDs:
-  - com.microsoft.VSCode
-  - com.microsoft.VSCodeInsiders
-  - com.microsoft.VSCodiumInsiders
-  - com.microsoft.VSCod
-  - com.visualstudio.code
-  - com.visualstudio.code.oss
-  - com.sublimetext.4
-  - com.sublimetext.3
-  - com.sublimetext.2
-  - com.sublimetext.
-  - com.todesktop.
-  keyPattern: ".* \u2014 [^\\w\\d]*(.)"
-  titlePattern: ".* \u2014 (.+)$"
-- {id: jetbrains, name: JetBrains IDEs, bundleIDs: [com.jetbrains.], keyPattern: '', titlePattern: "^(.+?)(?: \\[.+\\])? [\u2013\u2014] "}
-- {id: safari, name: Safari, bundleIDs: [com.apple.Safari], keyPattern: "^.+? \u2014 [^\\w\\d]*(.)", titlePattern: "^.+? \u2014 (.+)$"}
-- {id: xcode, name: Xcode, bundleIDs: [com.apple.dt.Xcode], keyPattern: '', titlePattern: "^(.+?) \u2014 "}
 overrideUserDefaults: true

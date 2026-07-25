@@ -32,5 +32,9 @@
         "**/.gitea/workflows/*.yaml",
         "**/.forgejo/workflows/*.yml",
         "**/.forgejo/workflows/*.yaml"
-    ]
+    ],
+    "claudeCode.preferredLocation": "sidebar",
+    "claudeCode.enableNewConversationShortcut": true,
+    "claudeCode.initialPermissionMode": "acceptEdits",
+    "cursor.cpp.enablePartialAccepts": true
 }
