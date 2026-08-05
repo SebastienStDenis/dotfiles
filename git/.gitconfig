@@ -5,7 +5,7 @@
     name = Sébastien St-Denis
     # The email is per-machine and lives in ~/.gitconfig.local. useConfigOnly
     # makes a missing one a hard error at commit time rather than a guess from
-    # the hostname, so work commits can't silently land under a personal address.
+    # the hostname, so a commit can't go out under the wrong address.
     useConfigOnly = true
 
 [core]
