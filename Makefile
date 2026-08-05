@@ -15,8 +15,8 @@ SHELLENV := if [ -x "$(BREW)" ]; then eval "$$($(BREW) shellenv sh)"; fi
 .PHONY: help work-mode \
         bootstrap-mac bootstrap-work bootstrap-linux dump \
         brew-init brew-setup brew-install brew-install-work brew-dump brew-prune \
-        git-setup git-identity omz-setup iterm2-setup cursor-setup cursor-dump claude-setup rcmd-setup linearmouse-setup \
-        link-git link-zsh link-brew link-claude link-cursor link-rcmd link-linearmouse
+        git-setup git-identity omz-setup iterm2-setup cursor-setup cursor-dump claude-setup rcmd-setup \
+        link-git link-zsh link-brew link-claude link-cursor link-rcmd
 
 .DEFAULT_GOAL := help
 
@@ -77,9 +77,9 @@ help: ## Show this help
 		awk 'BEGIN{FS=":.*?## "}{printf "  %-15s %s\n", $$1, $$2}'
 
 # ── Aggregates ─────────────────────────────────────────────────────────
-bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup claude-setup rcmd-setup linearmouse-setup ## Bootstrap the development environment on mac (backs up existing dotfiles)
+bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup claude-setup rcmd-setup ## Bootstrap the development environment on mac (backs up existing dotfiles)
 
-bootstrap-work: work-mode brew-install-work git-setup omz-setup iterm2-setup cursor-setup claude-setup rcmd-setup linearmouse-setup ## Bootstrap an employer-owned mac: no global Brewfile, no dumps, no personal apps
+bootstrap-work: work-mode brew-install-work git-setup omz-setup iterm2-setup cursor-setup claude-setup rcmd-setup ## Bootstrap an employer-owned mac: no global Brewfile, no dumps, no personal apps
 	@echo
 	@echo "Set this machine's git email before committing anything:"
 	@echo '  make git-identity EMAIL="you@work.example"'
@@ -155,8 +155,6 @@ cursor-dump: ## Overwrite Cursor extensions.txt from current environment
 
 rcmd-setup: link-rcmd ## Configure rcmd
 
-linearmouse-setup: link-linearmouse ## Configure LinearMouse
-
 claude-setup: link-claude ## Link Claude config and install plugins from settings.json
 	@$(SHELLENV); \
 	$(call require,claude); \
@@ -195,6 +193,3 @@ link-cursor: ## Link Cursor settings.json and keybindings.json
 
 link-rcmd: ## Link rcmd config.yaml
 	@$(call backup_and_link,"$(CURDIR)/rcmd/config.yaml","$(HOME)/.config/rcmd/config.yaml")
-
-link-linearmouse: ## Link LinearMouse linearmouse.json
-	@$(call backup_and_link,"$(CURDIR)/linearmouse/linearmouse.json","$(HOME)/.config/linearmouse/linearmouse.json")
