@@ -71,12 +71,12 @@ tabCycle:
   tabCycleSearchScope: allWindows
   tabCycleInclude: [minimized, hidden]
   tabCycleFocusOnKeyUp: true
-  hijackCommandTab: true
+  hijackCommandTab: false
   stickyAppSwitcher: false
   stickyAppSwitcherScope: rcmdOnly
   windowCycleKey: grave
   enableWindowCycleKey: true
-  hijackWindowCycleHotkey: true
+  hijackWindowCycleHotkey: false
 spaces: {spaceMode: single, createMissingSpaces: true, osdOnActiveSpaceOnly: false, enableInstantSpaceSwitching: true}
 general:
   whenAlreadyFocusedAction: CycleWindows
