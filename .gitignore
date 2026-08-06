@@ -6,6 +6,3 @@
 # Claude Code (local-only)
 **/.claude/settings.local.json
 .claude/worktrees/
-
-# Marks this checkout as an employer-owned machine (see `make work-mode`)
-.work-machine
