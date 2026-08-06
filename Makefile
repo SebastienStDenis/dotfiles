@@ -11,7 +11,7 @@ SHELLENV := if [ -x "$(BREW)" ]; then eval "$$($(BREW) shellenv sh)"; fi
 .PHONY: help \
         bootstrap-mac bootstrap-linux dump \
         brew-init brew-setup brew-install brew-dump brew-prune \
-        git-setup git-identity omz-setup iterm2-setup cursor-setup cursor-dump claude-setup rcmd-setup \
+        git-setup omz-setup iterm2-setup cursor-setup cursor-dump claude-setup rcmd-setup \
         link-git link-zsh link-brew link-claude link-cursor link-rcmd
 
 .DEFAULT_GOAL := help
@@ -87,15 +87,6 @@ brew-prune: ## Remove packages not in Brewfile
 
 # ── Tools ──────────────────────────────────────────────────────────────
 git-setup: link-git ## Configure git
-	@git config --get user.email >/dev/null || \
-		echo 'git-setup: no email set; run: make git-identity EMAIL="you@example.com"' >&2
-
-git-identity: ## Set this machine's git email in ~/.gitconfig.local (NAME optional)
-	@[ -n "$(EMAIL)" ] || \
-		{ echo 'usage: make git-identity EMAIL="you@example.com" [NAME="Your Name"]' >&2; exit 1; }
-	@git config --file "$(HOME)/.gitconfig.local" user.email "$(EMAIL)"
-	@[ -z "$(NAME)" ] || git config --file "$(HOME)/.gitconfig.local" user.name "$(NAME)"
-	@echo "Wrote $(HOME)/.gitconfig.local: $$(git config --get user.name) <$(EMAIL)>"
 
 omz-setup: link-zsh ## Install Oh My Zsh and plugins
 	@$(call require,zsh)

@@ -9,7 +9,6 @@ Dotfiles for macOS and Linux, managed by a single Makefile. Each top-level direc
 - `make help` - list all targets with descriptions
 - `make bootstrap-mac` - full macOS setup: Homebrew, packages, git, Oh My Zsh, iTerm2, Cursor, Claude
 - `make bootstrap-linux` - Linux setup: git, Oh My Zsh, and Claude
-- `make git-identity EMAIL="..."` - write this machine's git email to `~/.gitconfig.local`
 - `make <tool>-setup` - set up one tool (e.g. `claude-setup`, `cursor-setup`)
 - `make link-<tool>` - just create the symlinks for one tool
 - `make dump` - regenerate `brew/.Brewfile` and `cursor/extensions.txt` from the current machine
@@ -20,5 +19,5 @@ Dotfiles for macOS and Linux, managed by a single Makefile. Each top-level direc
 - **Two-way flow.** Setup targets push config out to the machine; dump targets (`brew-dump`, `cursor-dump`) pull machine state back into the repo. `brew/.Brewfile` and `cursor/extensions.txt` are generated files - hand edits survive until the next `make dump` overwrites them, so prefer installing/uninstalling for real and dumping.
 - **`claude/` is the user's global Claude Code config**, symlinked to `~/.claude/` (CLAUDE.md, settings.json, hooks/, agents/, commands/, skills/). Changes here affect every Claude Code session on the machine, including this one. `claude-setup` also installs the plugins declared in `claude/settings.json`.
 - **iTerm2 is the exception**: no symlink; `iterm2-setup` uses `defaults write` to point iTerm2's custom prefs folder at `iterm2/` in this repo.
-- **rcmd writes through its symlink**: the app saves settings changes to `rcmd/config.yaml` in this repo, so UI tweaks show up as uncommitted changes to review and commit. `overrideUserDefaults` stays `true` so the file is the source of truth: it is reapplied on every app launch and hand edits are picked up live, instead of GUI write-backs clobbering them with stale app state.- **The git email is per-machine.** `git/.gitconfig` keeps the name (same person everywhere) but no email; it includes `~/.gitconfig.local`, which `make git-identity` writes and which is never tracked here. `user.useConfigOnly = true` means a missing email fails the commit instead of being guessed from the hostname, so a commit can't quietly go out under the wrong address.
+- **rcmd writes through its symlink**: the app saves settings changes to `rcmd/config.yaml` in this repo, so UI tweaks show up as uncommitted changes to review and commit. `overrideUserDefaults` stays `true` so the file is the source of truth: it is reapplied on every app launch and hand edits are picked up live, instead of GUI write-backs clobbering them with stale app state.
 - The repo-local `.claude/settings.local.json` and `.claude/worktrees/` are gitignored; don't commit them.
