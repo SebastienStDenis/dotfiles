@@ -11,7 +11,7 @@ SHELLENV := if [ -x "$(BREW)" ]; then eval "$$($(BREW) shellenv sh)"; fi
 .PHONY: help \
         bootstrap-mac bootstrap-linux dump \
         brew-init brew-setup brew-install brew-dump brew-prune \
-        git-setup omz-setup iterm2-setup cursor-setup cursor-dump claude-setup rcmd-setup \
+        git-setup omz-setup iterm2-setup touchid-setup cursor-setup cursor-dump claude-setup rcmd-setup \
         link-git link-zsh link-brew link-claude link-cursor link-rcmd
 
 .DEFAULT_GOAL := help
@@ -63,7 +63,7 @@ help: ## Show this help
 		awk 'BEGIN{FS=":.*?## "}{printf "  %-15s %s\n", $$1, $$2}'
 
 # ── Aggregates ─────────────────────────────────────────────────────────
-bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup cursor-setup claude-setup rcmd-setup ## Bootstrap the development environment on mac (backs up existing dotfiles)
+bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup touchid-setup cursor-setup claude-setup rcmd-setup ## Bootstrap the development environment on mac (backs up existing dotfiles)
 
 bootstrap-linux: git-setup omz-setup claude-setup ## Bootstrap git, zsh, and Claude on linux (backs up existing dotfiles)
 
@@ -113,6 +113,10 @@ cursor-setup: link-cursor ## Link Cursor config and install extensions
 
 cursor-dump: ## Overwrite Cursor extensions.txt from current environment
 	$(SHELLENV) && cursor --list-extensions > "$(CURDIR)/cursor/extensions.txt"
+
+touchid-setup: ## Enable Touch ID for sudo
+	@grep -q '^auth.*pam_tid' /etc/pam.d/sudo_local 2>/dev/null || \
+		sudo sh -c 'sed "s/^#auth/auth/" /etc/pam.d/sudo_local.template > /etc/pam.d/sudo_local'
 
 rcmd-setup: link-rcmd ## Configure rcmd
 
