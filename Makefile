@@ -1,5 +1,6 @@
 # ── Config ─────────────────────────────────────────────────────────────
 CURSOR_USER := $(HOME)/Library/Application Support/Cursor/User
+AGENTS_FILE := $(HOME)/.config/agents/AGENTS.md
 
 BREW   := /opt/homebrew/bin/brew
 BUNDLE := $(BREW) bundle --global
@@ -147,7 +148,7 @@ link-brew: ## Link Brewfile
 	@$(call backup_and_link,"$(CURDIR)/brew/.Brewfile","$(HOME)/.Brewfile")
 
 link-agents: ## Link the shared agent instructions
-	@$(call backup_and_link,"$(CURDIR)/agents/AGENTS.md","$(HOME)/AGENTS.md")
+	@$(call backup_and_link,"$(CURDIR)/agents/AGENTS.md","$(AGENTS_FILE)")
 
 link-claude: link-agents ## Link Claude CLAUDE.md, settings, scripts, hooks, agents, commands, and skills
 	@$(call backup_and_link,"$(CURDIR)/claude/CLAUDE.md","$(HOME)/.claude/CLAUDE.md")
@@ -160,7 +161,7 @@ link-claude: link-agents ## Link Claude CLAUDE.md, settings, scripts, hooks, age
 
 # Codex has no import syntax in AGENTS.md, so its global file is the shared one.
 link-codex: link-agents ## Link Codex AGENTS.md
-	@$(call backup_and_link,"$(CURDIR)/agents/AGENTS.md","$(HOME)/.codex/AGENTS.md")
+	@$(call backup_and_link,"$(AGENTS_FILE)","$(HOME)/.codex/AGENTS.md")
 
 link-opencode: link-agents ## Link opencode.jsonc
 	@$(call backup_and_link,"$(CURDIR)/opencode/opencode.jsonc","$(HOME)/.config/opencode/opencode.jsonc")
