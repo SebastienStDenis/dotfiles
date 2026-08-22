@@ -66,7 +66,7 @@ help: ## Show this help
 # ── Aggregates ─────────────────────────────────────────────────────────
 bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup touchid-setup cursor-setup claude-setup opencode-setup rcmd-setup ## Bootstrap the development environment on mac (backs up existing dotfiles)
 
-bootstrap-linux: git-setup omz-setup claude-setup ## Bootstrap git, zsh, and Claude on linux (backs up existing dotfiles)
+bootstrap-linux: git-setup omz-setup claude-setup opencode-setup ## Bootstrap git, zsh, Claude, and opencode on linux (backs up existing dotfiles)
 
 dump: brew-dump cursor-dump ## Run all dumps (brew-dump, cursor-dump)
 

@@ -2,13 +2,13 @@
 
 ## What this is
 
-Dotfiles for macOS and Linux, managed by a single Makefile. Each top-level directory holds one tool's config (`brew/`, `claude/`, `cursor/`, `git/`, `iterm2/`, `opencode/`, `rcmd/`, `zsh/`), plus `agents/` for the instructions shared across coding agents, and `link-*` targets symlink those files into `$HOME`. macOS gets the full setup; Linux gets git, zsh, and Claude. There is no build, lint, or test suite; verification is running the relevant make target (or `make -n <target>` to dry-run).
+Dotfiles for macOS and Linux, managed by a single Makefile. Each top-level directory holds one tool's config (`brew/`, `claude/`, `cursor/`, `git/`, `iterm2/`, `opencode/`, `rcmd/`, `zsh/`), plus `agents/` for the instructions shared across coding agents, and `link-*` targets symlink those files into `$HOME`. macOS gets the full setup; Linux gets git, zsh, Claude, and opencode. There is no build, lint, or test suite; verification is running the relevant make target (or `make -n <target>` to dry-run).
 
 ## Commands
 
 - `make help` - list all targets with descriptions
 - `make bootstrap-mac` - full macOS setup: Homebrew, packages, git, Oh My Zsh, iTerm2, Cursor, Claude, opencode
-- `make bootstrap-linux` - Linux setup: git, Oh My Zsh, and Claude
+- `make bootstrap-linux` - Linux setup: git, Oh My Zsh, Claude, and opencode
 - `make <tool>-setup` - set up one tool (e.g. `claude-setup`, `cursor-setup`)
 - `make link-<tool>` - just create the symlinks for one tool
 - `make dump` - regenerate `brew/.Brewfile` and `cursor/extensions.txt` from the current machine
@@ -20,6 +20,7 @@ Dotfiles for macOS and Linux, managed by a single Makefile. Each top-level direc
 - **`agents/AGENTS.md` is the one set of agent instructions**, symlinked to `~/.config/agents/AGENTS.md` (the `AGENTS_FILE` variable in the Makefile). That XDG path is the hub; no tool defines it, so it stays tool-neutral and out of `$HOME`. Every agent reaches it through a pointer file at that agent's own global path, never by a second symlink of the shared file: `claude/CLAUDE.md` is a single `@~/.config/agents/AGENTS.md` import, and `opencode/opencode.jsonc` lists the same path under `instructions`. Keeping the indirection uniform is what leaves room for tool-specific rules - they go in the pointer file, alongside the line naming the hub, while anything that applies everywhere goes in `agents/AGENTS.md`.
 - **`claude/` is the user's global Claude Code config**, symlinked to `~/.claude/` (CLAUDE.md, settings.json, hooks/, agents/, commands/, skills/). Changes here affect every Claude Code session on the machine, including this one. `claude-setup` also installs the plugins declared in `claude/settings.json`.
 - **The GitHub MCP token comes from `gh`**: `zsh/.zshrc` exports `GITHUB_PERSONAL_ACCESS_TOKEN` from `gh auth token`, which is the variable both Claude's github plugin and `opencode/opencode.jsonc` interpolate into their `Authorization` header. opencode pins `"oauth": false` on that server because its OAuth auto-detection fails against `api.githubcopilot.com` (no dynamic client registration), so the header is the only auth path.
+- **The agent CLIs are installed outside their setup targets**: `opencode-setup` and `claude-setup` link config, and `claude-setup` requires `claude` on PATH rather than installing it. macOS gets opencode from the Brewfile; on Linux, where there is no Homebrew, opencode's own installer drops the binary in `~/.opencode/bin`, which is why `zsh/.zshrc` adds that directory when it exists.
 - **iTerm2 is the exception**: no symlink; `iterm2-setup` uses `defaults write` to point iTerm2's custom prefs folder at `iterm2/` in this repo.
 - **rcmd writes through its symlink**: the app saves settings changes to `rcmd/config.yaml` in this repo, so UI tweaks show up as uncommitted changes to review and commit. `overrideUserDefaults` stays `true` so the file is the source of truth: it is reapplied on every app launch and hand edits are picked up live, instead of GUI write-backs clobbering them with stale app state.
 - The repo-local `.claude/settings.local.json` and `.claude/worktrees/` are gitignored; don't commit them.

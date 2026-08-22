@@ -27,6 +27,8 @@ brew "kubernetes-cli"
 brew "kustomize"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
+# AI coding agent, built for the terminal
+brew "opencode"
 # Tail multiple Kubernetes pods & their containers
 brew "stern"
 # Define your dev environment as code. For microservice apps on Kubernetes
