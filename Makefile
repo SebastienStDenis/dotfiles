@@ -1,5 +1,6 @@
 # ── Config ─────────────────────────────────────────────────────────────
 CURSOR_USER := $(HOME)/Library/Application Support/Cursor/User
+AGENTS_FILE := $(HOME)/.config/agents/AGENTS.md
 
 BREW   := /opt/homebrew/bin/brew
 BUNDLE := $(BREW) bundle --global
@@ -11,8 +12,8 @@ SHELLENV := if [ -x "$(BREW)" ]; then eval "$$($(BREW) shellenv sh)"; fi
 .PHONY: help \
         bootstrap-mac bootstrap-linux dump \
         brew-init brew-setup brew-install brew-dump brew-prune \
-        git-setup omz-setup iterm2-setup touchid-setup cursor-setup cursor-dump claude-setup codex-setup opencode-setup rcmd-setup \
-        link-git link-zsh link-brew link-agents link-claude link-codex link-opencode link-cursor link-rcmd
+        git-setup omz-setup iterm2-setup touchid-setup cursor-setup cursor-dump claude-setup opencode-setup rcmd-setup \
+        link-git link-zsh link-brew link-agents link-claude link-opencode link-cursor link-rcmd
 
 .DEFAULT_GOAL := help
 
@@ -63,7 +64,7 @@ help: ## Show this help
 		awk 'BEGIN{FS=":.*?## "}{printf "  %-15s %s\n", $$1, $$2}'
 
 # ── Aggregates ─────────────────────────────────────────────────────────
-bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup touchid-setup cursor-setup claude-setup codex-setup opencode-setup rcmd-setup ## Bootstrap the development environment on mac (backs up existing dotfiles)
+bootstrap-mac: brew-setup brew-install git-setup omz-setup iterm2-setup touchid-setup cursor-setup claude-setup opencode-setup rcmd-setup ## Bootstrap the development environment on mac (backs up existing dotfiles)
 
 bootstrap-linux: git-setup omz-setup claude-setup ## Bootstrap git, zsh, and Claude on linux (backs up existing dotfiles)
 
@@ -120,8 +121,6 @@ touchid-setup: ## Enable Touch ID for sudo
 
 rcmd-setup: link-rcmd ## Configure rcmd
 
-codex-setup: link-codex ## Point Codex at the shared agent instructions
-
 opencode-setup: link-opencode ## Link opencode config
 
 claude-setup: link-claude ## Link Claude config and install plugins from settings.json
@@ -147,7 +146,7 @@ link-brew: ## Link Brewfile
 	@$(call backup_and_link,"$(CURDIR)/brew/.Brewfile","$(HOME)/.Brewfile")
 
 link-agents: ## Link the shared agent instructions
-	@$(call backup_and_link,"$(CURDIR)/agents/AGENTS.md","$(HOME)/AGENTS.md")
+	@$(call backup_and_link,"$(CURDIR)/agents/AGENTS.md","$(AGENTS_FILE)")
 
 link-claude: link-agents ## Link Claude CLAUDE.md, settings, scripts, hooks, agents, commands, and skills
 	@$(call backup_and_link,"$(CURDIR)/claude/CLAUDE.md","$(HOME)/.claude/CLAUDE.md")
@@ -157,10 +156,6 @@ link-claude: link-agents ## Link Claude CLAUDE.md, settings, scripts, hooks, age
 	@$(call backup_and_link,"$(CURDIR)/claude/agents","$(HOME)/.claude/agents")
 	@$(call backup_and_link,"$(CURDIR)/claude/commands","$(HOME)/.claude/commands")
 	@$(call backup_and_link,"$(CURDIR)/claude/skills","$(HOME)/.claude/skills")
-
-# Codex has no import syntax in AGENTS.md, so its global file is the shared one.
-link-codex: link-agents ## Link Codex AGENTS.md
-	@$(call backup_and_link,"$(CURDIR)/agents/AGENTS.md","$(HOME)/.codex/AGENTS.md")
 
 link-opencode: link-agents ## Link opencode.jsonc
 	@$(call backup_and_link,"$(CURDIR)/opencode/opencode.jsonc","$(HOME)/.config/opencode/opencode.jsonc")
