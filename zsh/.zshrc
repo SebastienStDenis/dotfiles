@@ -13,6 +13,10 @@ alias brup='brew update && brew upgrade && brew cleanup'
 export DISABLE_UNTRACKED_FILES_DIRTY=true
 export EDITOR='nvim'
 
+if command -v gh >/dev/null 2>&1; then
+    export GITHUB_PERSONAL_ACCESS_TOKEN="$(gh auth token 2>/dev/null)"
+fi
+
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="kolo"
 

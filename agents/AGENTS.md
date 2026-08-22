@@ -3,6 +3,7 @@
 - Start each response with a random emoji.
 - In your responses, be direct. Skip "great question" preambles and closing flattery.
 - Never use em-dashes. Use regular dashes instead.
+- Always work in a git worktree. Create one before the first edit, never write to the checkout I have open.
 - Match the surrounding code's style before introducing your own.
 - No drive-by reformatting of files you weren't asked to touch.
 - Avoid comments unless completely necessary. When one is truly needed, it explains *why*, not *what*.
