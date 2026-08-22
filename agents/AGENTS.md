@@ -12,4 +12,5 @@
 - Write every change as if the final version was the plan from the start. The repo records where we landed, not how we got there.
 - Never leave comments referencing the conversation or a prior approach (never "use B instead of A", "as requested", "switched from X"). Just write the final code.
 - Before saying "done": run the linter, typechecker, build, relevant tests, or whatever other checks the repo has.
+- Before pushing, verify the current branch is not `main`. Never push directly to `main` under any circumstances.
 - After pushing to a PR, always check the PR for merge conflicts and resolve them before returning.
